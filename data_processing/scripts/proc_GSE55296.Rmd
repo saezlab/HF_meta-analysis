@@ -1,0 +1,137 @@
+---
+title: "E-GEOD-55296 pre-proc"
+author: "Ricardo Ramirez"
+date: "1/7/2019"
+output: html_document
+---
+
+```{r}
+library(Rsubread)
+library(limma)
+library(tidyverse)
+library(edgeR)
+```
+
+## E-GEOD-55296 pre-proc
+
+```{r, warning= FALSE}
+setwd("~/Dropbox/PhD/Research/LifeInformatics/Background/E-GEOD-55296/")
+load("E-GEOD-55296_gcounts.ro")
+
+ExprMAT = gene$counts
+
+colnames(ExprMAT) = unlist(lapply(strsplit(colnames(ExprMAT),split = "\\."), function(x) x[12]))
+```
+
+```{r, warning= FALSE}
+setwd("~/Dropbox/PhD/Research/LifeInformatics/Background/E-GEOD-55296/")
+
+RawTargets = read.table("E-GEOD-55296.sdrf.txt",sep = "\t",header = T,stringsAsFactors = F)
+
+compTargets = read.table("~//Dropbox/PhD/Research/LifeInformatics/Background/E-GEOD-55296/E-GEOD-55296.sdrf.txt",sep = "\t",header = T,stringsAsFactors = F)
+
+RawTargets = RawTargets[,c(ncol(RawTargets)-1,ncol(RawTargets))]
+
+RawTargets[,1] = unlist(lapply(strsplit(RawTargets[,1],split = "/"), function(x) x[8]))
+
+RawTargets = unique(RawTargets)
+
+colnames(RawTargets) = c("sample","disease")
+
+ExprMAT = ExprMAT[,RawTargets$sample]
+
+```
+
+#### Delete rRNA, tRNA
+
+```{r, warning= FALSE}
+setwd("~/Dropbox/PhD/Research/LifeInformatics/Background/E-GEOD-55296/")
+
+ann = gene$annotation
+columns = c("GeneID","Symbol", "chromosome", "type_of_gene")
+GeneInfo = as.tibble(read.csv2("HS_gene_info.tsv",sep = "\t",header = T,stringsAsFactors = F))
+
+ann_ext = left_join(ann[,1,drop=F], GeneInfo, by = "GeneID")
+
+GENES = filter(ann_ext, type_of_gene != "tRNA" & type_of_gene != "rRNA")
+nrow(GENES)
+
+ExprMAT = ExprMAT[as.character(GENES$GeneID),]
+
+rownames(ExprMAT) = GENES$Symbol
+
+```
+
+There are no duplicated gene symbols
+
+```{r}
+sum(duplicated(GENES$Symbol))
+```
+
+```{r}
+ExprMAT_dge = DGEList(counts=ExprMAT,group = RawTargets$disease) 
+boxplot(cpm(ExprMAT_dge,log = TRUE))
+title(main="A. Example: Unnormalised data",ylab="Log-cpm")
+```
+
+
+```{r}
+library(HTSFilter)
+
+filter_res= HTSFilter(x=ExprMAT_dge, conds=RawTargets$disease, s.min = 1, s.max = 200,
+            s.len = 100, loess.span = 0.3, normalization = "TMM", plot = TRUE, plot.name = NA, parallel = FALSE)
+
+ExprMAT_dge = filter_res$filteredData
+
+boxplot(cpm(ExprMAT_dge,log = TRUE))
+title(main="B. Example: data after HTSFilter",ylab="Log-cpm")
+
+```
+
+```{r}
+TMM_ExprMAT = calcNormFactors(ExprMAT_dge)
+boxplot(cpm(TMM_ExprMAT,las= 2,log = TRUE))
+
+title(main="C. TMM Normalized data",ylab="Log-cpm")
+```
+```{r}
+plotMDS(TMM_ExprMAT,cex = 0.6)
+plotMDS(TMM_ExprMAT,labels = TMM_ExprMAT$samples$lib.size,cex = 0.6)
+plotMDS(TMM_ExprMAT,labels = TMM_ExprMAT$samples$group,cex = 0.6)
+
+ix = grep("SRR1175549",colnames(TMM_ExprMAT$counts))
+
+TMM_ExprMAT = TMM_ExprMAT[,-ix]
+RawTargets = RawTargets[-ix,]
+```
+
+
+```{r}
+color_df = data.frame(unique(TMM_ExprMAT$samples$group),colors()[c(26,640,80)])
+colnames(color_df) = c("group","col")
+
+TMM_ExprMAT$samples = left_join(TMM_ExprMAT$samples,color_df)
+
+plotMDS(TMM_ExprMAT,cex = 0.7,labels = TMM_ExprMAT$samples$group,col=as.character(TMM_ExprMAT$samples$col))
+```
+
+```{r}
+Disease = as.factor(RawTargets$disease)
+design <- model.matrix(~0 + Disease)
+rownames(design) <- colnames(TMM_ExprMAT$counts)
+colnames(design) = c("Dilated","Healthy","Ischemic")
+
+
+voom_ExprMAT <- voom(TMM_ExprMAT, design, plot=TRUE)
+```
+
+```{r}
+GSE55296_counts = voom_ExprMAT$E
+GSE55296_targets = RawTargets %>% mutate(HeartFailure = ifelse(disease == "healthy","no","yes"))
+GSE55296_counts = GSE55296_counts[,GSE55296_targets$sample]
+
+save(GSE55296_counts,file = "~/Dropbox/PhD/Research/HeartMeta/data/GSE55296/preproc/GSE55296_counts.ro")
+save(GSE55296_targets, file = "~/Dropbox/PhD/Research/HeartMeta/data/GSE55296/preproc/GSE55296_targets.ro")
+
+boxplot(voom_ExprMAT$E)
+```
