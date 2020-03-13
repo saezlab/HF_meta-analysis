@@ -33,7 +33,7 @@ Please deposit the unzipped folders in the root directory of this R-project.
  
  **Exceptions:**
  
-Raw data of each experiment used is not provided as it can be downloaded from their original publications. However, scripts showing how data was individually processed is provided [here](put_link)
+Raw data of each experiment used is not provided as it can be downloaded from their original publications. However, scripts showing how data was individually processed is provided [here](https://github.com/saezlab/HF_meta-analysis/tree/master/data_processing/scripts)
  
 ***
 
