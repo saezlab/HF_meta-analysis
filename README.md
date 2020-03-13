@@ -49,22 +49,25 @@ Script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/
 #### Differential expression analysis
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/de_analysis.R).
 
-#### Differential expression analysis, gene level statistics visualization (Supplemental Figure #)
+#### Differential expression analysis, gene level statistics visualization (Supplemental Figure 2)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/deg_stats.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/deg_stats.R).
 
 #### Generation of list of external data sets used (already provided in Zenodo)
-Script available for external [here](put_link) and for fetal studies [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_external_metaheart.R).
+Script available for external [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_external_metaheart.R) and for fetal studies [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_fetal_metaheart.R).
 
-#### Data description: PCAs of all data sets and z-transformed data sets, t-SNE (Supplemental Figure #)
+#### Test of marker genes in all experiments (Supplemental Figure 3)
+Script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/HF_marker_genes.R).
+
+#### Data description: PCAs of all data sets and z-transformed data sets, t-SNE (Supplemental Figure 5)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/general_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gen_var_figs.R).
 
-#### Data description: PCAs of gene-centered data (Supplemental Figure #)
+#### Data description: PCAs of gene-centered data (Supplemental Figure 6)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_centered_analysis.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gcentered_figs.R).
 
-#### Data description: DCM vs ICM for gene std matrices (Supplemental Figure #)
+#### Data description: DCM vs ICM for gene std matrices (Supplemental Figure 7)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/dcm_vs_icm.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/dcm_vs_icm_figs.R).
 
@@ -72,7 +75,7 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/study_comparison.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/reproducibility_figs.R).
 
-#### Robustness of replicability measurements (Supplemental Figure #)
+#### Robustness of replicability measurements (Supplemental Figure 8)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/robustness_glist_size.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/robustness_es_ds.R).
 
@@ -80,14 +83,14 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/get_metaranking.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/meta_main.R).
 
-#### Selection of most informative genes from the consensus ranking (Supplemental Figure #)
+#### Gradient of information in the meta-analysis (Supplemental Figure 9)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/genes_best_performance.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/best_perf_figs.R).
 
 #### Added value of meta-analysis
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/added_value.R).
 
-#### Gene level variability (Supplemental Figure #)
+#### Gene level variability (Supplemental Figure 10)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/gene_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_variability_anova.R).
 
@@ -95,5 +98,8 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/functional_analysis.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/funcomics_tiles.R).
 
+#### Extrapolation of disease score (Figure 5)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/DS_Fetal_External.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/DS_Fetal_External_plotting.R).
 
 
