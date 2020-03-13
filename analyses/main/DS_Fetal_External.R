@@ -1,19 +1,19 @@
-# Copyright (c) [2019] [Jan Lanzer, Ricardo Ramirez]
-# roramirezf@uni-heidelberg.de
+# Author: Jan Lanzer 2019
 # Description: This script performs the diseaes score (risk score) calculation for fetal and 
-# external data sets
 library(tidyverse)
 library(WriteXLS)
 
-# load general functions
+# load sorurce   functions
 source("src/data_utils.R") 
 source("src/misc_utils.R")
 
 # load objects containing data from heart failure studies
-METAheart = readRDS(file = "data/METAheart.rds")
+METAheart= readRDS(file = "data/METAheart.rds")
 external_experiments = readRDS("data/external_METAheart.rds")
 fetal_experiments = readRDS("data/fetal_METAheart.rds")
 meta_rank = readRDS("data/shiny/fisher_rank.rds")
+
+
 
 #### Part 1. Analysis of External Datasets ####
 
@@ -46,7 +46,9 @@ for (study in names(external_experiments)){
 
 # save disease score
 saveRDS(mat_ds_means,
-        file = "data/figure_objects/ds_external_experiment.rds")
+        file = "data/paper_sup/ds_external_experiment.rds")
+saveRDS(mat_ds,
+        file = "data/paper_sup/ds_external_experiment_AUC.rds")
 
 
 # B) Disease Score modelling
@@ -80,31 +82,31 @@ lm_results = lm_results %>% rownames_to_column("Study")
 
 # save results of LM
 saveRDS(lm_results,
-        file = "data/figure_objects/ds_external_experiment_lm.rds")
+        file = "data/paper_sup/ds_external_experiment_lm.rds")
 
 # save results of DS as .xlsx file
-ds_GSE76701  = mat_ds_means$GSE76701
 ds_GSE84796  = mat_ds_means$GSE84796
 ds_GSE4172   = mat_ds_means$GSE4172
 ds_GSE9800   = mat_ds_means$GSE9800
 ds_GSE10161  = mat_ds_means$GSE10161
+ds_GSE3586   = mat_ds_means$GSE3586
 
-WriteXLS(x = c("ds_GSE76701","ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","lm_results"),
+WriteXLS(x = c("ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","ds_GSE3586", "lm_results"),
          ExcelFileName = "data/paper_sup/External_DS.xlsx",
-         SheetNames = c("ds_GSE76701","ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","lm_results")
+         SheetNames = c("ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","ds_GSE3586","lm_results")
 )
 
 
+#### Part 2. Analysis of fetal datasets ########################################
 
-#### Part 2. Analysis of fetal datasets ####
-
-# to be deleted - renaming trick (rename fetal to HeartFailure) to run functions from source that requires HeartFailure category
+# renaming trick (rename fetal to HeartFailure) to run functions from source that requires HeartFailure category
 fetal_experiments_copy= fetal_experiments
   for (study in names(fetal_experiments_copy)){
     fetal_experiments_copy[[study]]$TARGETS = fetal_experiments_copy[[study]]$TARGETS %>%
       rename(HeartFailure_original = HeartFailure) %>%
       rename(HeartFailure = fetal)
   }
+
 
 # A) Disease Score calculation
 # calculating the disease score for fetal experiments
@@ -127,9 +129,42 @@ for (study in names(fetal_experiments_copy)){
     mutate(HeartFailure= as.factor(HeartFailure))
 }
 
+#Repeat disease score calculation for PRJNA522417
+#Reason: For the fetal study spurell19, we cannot use the t-value matrix containing the very same study to predict itself, this 
+#would be overfitting and therefore they have to be taken out before calculating disease score
+
+# A) Disease Score calculation
+# calculating the disease score for fetal experiments
+mat_ds_spurrell = getRisk_Stats_v2(Experiment_List = fetal_experiments_copy,
+                                   genes = predictor_genes,
+                                   limma_t_mat = coef_matrix[,colnames(coef_matrix) != "PRJNA522417"]) #  here we remove the study from the coef matrix
+
+# calculate the mean disease score for each fetal experiment 
+mat_ds_means_spurrell = lapply(mat_ds_spurrell , function(x){
+  data.frame("Risk_Score" = rowMeans(x$RiskMatrix))
+})
+
+# add sample information from target file to disease scores
+for (study in names(fetal_experiments_copy)){
+  mat_ds_means_spurrell[[study]] = mat_ds_means_spurrell[[study]]%>%
+    rownames_to_column("Sample") %>% 
+    as_tibble() %>% 
+    full_join(fetal_experiments_copy[[study]]$TARGETS) %>%
+    select(Sample, Risk_Score, HeartFailure) %>% 
+    mutate(HeartFailure= as.factor(HeartFailure))
+}
+
+
+#overwriting the overfitted ds with the correct values
+mat_ds_means$PRJNA522417 = mat_ds_means_spurrell$PRJNA522417
+mat_ds$PRJNA522417 = mat_ds_spurrell$PRJNA522417
+
+
 # save disease score
 saveRDS(mat_ds_means,
-        file = "data/figure_objects/ds_fetal_experiment.rds")
+        file = "data/paper_sup/ds_fetal_experiment.rds")
+saveRDS(mat_ds,
+        file = "data/paper_sup/ds_fetal_experiment_AUC.rds")
 
 
 # B) Disease Score modelling
@@ -150,14 +185,14 @@ lm_results = lm_results %>% rownames_to_column("Study")
 
 # save results of LM
 saveRDS(lm_results,
-        file = "data/figure_objects/ds_fetal_experiment_lm.rds")
+        file = "data/paper_sup/ds_fetal_experiment_lm.rds")
 
 # save results of DS as .xlsx file
 ds_GSE52501 = mat_ds_means$GSE52601
-ds_PRJNA522417 = mat_ds_means$PRJNA522417
-WriteXLS(x = c("ds_GSE52501","ds_PRJNA522417","lm_results"),
+ds_PRNJA522417 = mat_ds_means$PRJNA522417
+WriteXLS(x= c("ds_GSE52501","ds_PRNJA522417","lm_results"),
          ExcelFileName = "data/paper_sup/Fetal_DS.xlsx",
-         SheetNames = c("ds_GSE52501","ds_PRJNA522417","lm_results")
+         SheetNames = c("ds_GSE52501","ds_PRNJA522417","lm_results")
 )
 
 
@@ -167,12 +202,3 @@ WriteXLS(x = c("ds_GSE52501","ds_PRJNA522417","lm_results"),
 
 
 
-
-
-
-
-
-
-
-
- 

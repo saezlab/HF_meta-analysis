@@ -71,6 +71,13 @@ load("data_processing/processed/GSE5406_counts.ro")
 METAheart[["GSE5406"]] = list("GEX" = GSE5406_counts, 
                               "TARGETS" = GSE5406_targets)
 
+#GSE16499
+load("data_processing/processed/GSE16499_targets.ro")
+load("data_processing/processed/GSE16499_counts.ro")
+
+METAheart[["GSE16499"]] = list("GEX" = GSE16499_counts, 
+                              "TARGETS" = GSE16499_targets)
+
 #GSE55296
 load("data_processing/processed/GSE55296_targets.ro")
 load("data_processing/processed/GSE55296_counts.ro")
