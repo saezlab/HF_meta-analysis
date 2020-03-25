@@ -131,7 +131,7 @@ pcat_plot = tableGrob(pcs_data, rows = NULL,
                       theme = mytheme)
 
 pdf("./analyses/figures/sup/gcentered_figs.pdf",
-    width = 14,
+    width = 15,
     height = 10)
 
 grid.arrange(final_plot, pcat_plot, ncol = 2, widths = c(3.5,1))

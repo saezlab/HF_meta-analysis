@@ -27,7 +27,7 @@ pval = ggplot(deg_stats$pvalue,
         panel.background = element_rect(fill=NULL,
                                         color = "black"),
         panel.grid = element_blank()) +
-        xlab("dataset")
+        xlab("dataset") + ylab("-log10(p-value)")
 
 tval = ggplot(deg_stats$tvalue,
        aes(x = factor(experiment,levels = names(experiment_size)), 
