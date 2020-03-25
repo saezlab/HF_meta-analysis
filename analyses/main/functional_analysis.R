@@ -35,7 +35,7 @@ lfc_matrix = (get_all_limma(meta_list = METAheart,
                             limma_column = "logFC"))[genes,]
 
 # Generating ranks for GSEA
-progeny_rank = dorothea_rank = gsea_rank = sort(rowMeans(sign(lfc_matrix)) * -log2(fisher_rank),
+progeny_rank = dorothea_rank = gsea_rank = sort(rowMeans(sign(lfc_matrix),na.rm = T) * -log2(fisher_rank),
                  decreasing = T) #Ranking penalizing inconsistency in direction
 
 saveRDS(progeny_rank, 

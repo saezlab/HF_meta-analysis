@@ -66,6 +66,15 @@ t_matrix =(get_all_limma(meta_list = METAheart,
 lfc_matrix = (get_all_limma(meta_list = METAheart,
                             limma_column = "logFC"))[genes,]
 
+# 1.2 print, where are the markers
+
+marker_genes = c("MYH6","MME","CNN1","NPPA","KCNH2","SLC2A1",
+                 "ATP2A2","COL21A1","COL15A1","ECM2","MXRA5",
+                 "KIT","FNDC1","LAMA4","SSPN","KCNN3","FGF14")
+
+print(data.frame(Rank = which(genes %in% marker_genes),
+           mgens = genes[which(genes %in% marker_genes)]))
+
 # 2. Calculate the contribution of each study
 
 meta_ranking = -log10(fisher_rank)
@@ -80,6 +89,8 @@ set.seed(1234)
 contribution = fgsea(pathways = study_deg_list,
                      stats = meta_ranking,nperm = 1000) %>% 
   as_tibble()
+
+print(contribution,n=50)
 
 saveRDS(contribution, file = "data/figure_objects/contribution.rds")
 
