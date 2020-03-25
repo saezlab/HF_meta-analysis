@@ -15,8 +15,8 @@ source("src/misc_utils.R")
 METAheart = readRDS(file = "data/METAheart.rds") #main object
 
 marker_genes = c("MYH6","MME","CNN1","NPPA","KCNH2","SLC2A1",
-                 "ATP2A2","COL21A1","COL15A1","ECM2",#"MXRA5",
-                 "KIT","FNDC1","LAMA4","SSPN","KCNN3")
+                 "ATP2A2","COL21A1","COL15A1","ECM2","MXRA5",
+                 "KIT","FNDC1","LAMA4","SSPN","KCNN3","FGF14")
 
 experiments = names(METAheart)
 names(experiments) = experiments
@@ -154,7 +154,8 @@ gene_expression_plot = plot_grid(plot_list[[1]],plot_list[[2]], plot_list[[3]],
                                  plot_list[[4]],plot_list[[5]], plot_list[[6]],
                                  plot_list[[7]],plot_list[[8]], plot_list[[9]],
                                  plot_list[[10]],plot_list[[11]], plot_list[[12]],
-                                 plot_list[[13]],
+                                 plot_list[[13]],plot_list[[14]],plot_list[[15]],
+                                 plot_list[[16]],
                                  last_g,
                                  ncol = 1, align = 'v', rel_widths = c(rep(0.12, 13),0.34))
 
@@ -180,15 +181,15 @@ rank_plot = ggplot(pvalue_df, aes(x = rank,
                                                     seq(1000,3000,2000), 
                                                seq(3000,11000,2000),
                                                length(fisher_rank)),
-                                    limits = c(0.3,13000)) +
-  geom_vline(xintercept = 450) +
+                                    limits = c(0.3,14100)) +
+  geom_vline(xintercept = 500) +
   ylab("-log10(BH p-value)") +
   xlab("Meta-analysis Rank")
 
 
 pdf("analyses/figures/main/meta_analysis_rank.pdf",
     width = 8.70,
-    height = 3.54)
+    height = 4.24)
 
 plot(rank_plot)
 

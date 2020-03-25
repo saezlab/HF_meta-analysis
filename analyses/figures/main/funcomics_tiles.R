@@ -55,7 +55,7 @@ g1 <- GSEA_filtering %>%
 
 # Dorothea_filtering
 
-dorothea_filtering = dorothea %>% dplyr::filter(adj_pvalue < 0.1) %>%
+dorothea_filtering = dorothea %>% dplyr::filter(pvalue < 0.05) %>%
   arrange(-log2(pvalue) * sign(NES)) %>%
   mutate(dir_reg = sign(NES),
          log_pval = -log10(pvalue),
@@ -77,7 +77,7 @@ g2 <- dorothea_filtering %>%
         axis.title.y = element_blank(),
         panel.grid = element_blank(),
         panel.background = element_rect(fill=NULL, colour='black'),
-        plot.margin = unit(c(0, 0, 8.5, 0.5), 'cm')) + 
+        plot.margin = unit(c(0, 0, 0, 0.5), 'cm')) + 
   scale_y_continuous(expand = c(0, 0)) + 
   scale_fill_manual(values=as.character(dorothea_filtering$tile_color), 
                     na.value='black', guide=FALSE) +
@@ -151,11 +151,11 @@ g4 <- miRNA_filtering %>%
   coord_flip()
 
 pdf("./analyses/figures/main/funcomics_tiles.pdf",
-    width = 7.51,
+    width = 8.3,
     height = 7.21)
 
 plot(plot_grid(g1,g2,g3,g4,nrow = 1,
-          rel_widths = c(1.05,.35,.35,.4)))
+          rel_widths = c(1.0,.35,.35,.4)))
 
 dev.off()
 
