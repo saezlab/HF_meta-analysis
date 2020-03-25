@@ -132,11 +132,26 @@ load("data_processing/processed/Translatome_count.ro")
 METAheart[["Translatome"]] = list("GEX" = Translatome_count, 
                                   "TARGETS" = Translatome_targets)
 
+#GSE123976
+load("data_processing/processed/GSE123976_target.ro")
+load("data_processing/processed/GSE123976_count.ro")
+
+METAheart[["GSE123976"]] = list("GEX" = GSE123976_count, 
+                                  "TARGETS" = GSE123976_target)
+
 
 # 2. Remove incomplete information : Only applies to translatome 
 
 METAheart = lapply(METAheart, function(x){
   x$TARGETS = na.omit(x$TARGETS)
+  return(x)
+})
+
+# 2.1 Controls in case of wrong DCM label
+METAheart = lapply(METAheart, function(x){
+  if("DCM" %in% colnames(x$TARGETS)){
+    x$TARGETS$DCM[x$TARGETS$HeartFailure == "no"] = "no"
+  }
   return(x)
 })
 
@@ -189,9 +204,7 @@ icm = c()
 for (study in names(METAheart)){
   ct= c(ct,dim(METAheart[[study]]$TARGETS %>% dplyr::filter(HeartFailure == "no"))[1])
   dcm = c(dcm,dim(METAheart[[study]]$TARGETS %>% dplyr::filter(DCM == "yes"))[1])
-  icm = c(icm,dim(METAheart[[study]]$TARGETS %>% dplyr::filter(DCM == "no") %>% 
-                    dplyr::filter(HeartFailure == "yes"))[1])
-  
+  icm = c(icm,dim(METAheart[[study]]$TARGETS %>% dplyr::filter(DCM == "no", HeartFailure == "yes"))[1])
   ct1 = dim(METAheart[[study]]$TARGETS %>% filter(HeartFailure == "no"))[1]
 }
 
