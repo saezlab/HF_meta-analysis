@@ -27,8 +27,9 @@ meta_targets = get_tibble_union(METAheart,"TARGETS") %>%
   mutate(grl_id = paste(Sample,ExpID,sep = "_"))
 
 # Annotating RNAseq and Microarray
-marrays = c("GSE57345","GSE42955","GSE1869",
-            "GSE3585","GSE26887","GSE5406")
+marrays = c("GSE76701","GSE57345","GSE42955",
+            "GSE1869","GSE3585","GSE26887",
+            "GSE5406","GSE16499")
 
 load("./data/dictionaryIDs.ro")
 new_ids = dictionary %>% dplyr::filter(GEO_ID %in% marrays)
@@ -94,10 +95,10 @@ total_prop_study = sum(pcs_study[2,])
 print(total_prop_study)
 
 #4. Creation of table for plot
-summary_table = rbind(c(ncol(pcs_hf), total_prop_hf),
-                      c(ncol(pcs_study), total_prop_study))
+summary_table = cbind(c("Heart Failure","study"),rbind(c(ncol(pcs_hf), total_prop_hf),
+                      c(ncol(pcs_study), total_prop_study)))
 
-colnames(summary_table) = c("Total PCs","Cumulative Proportion \n of Variance")
+colnames(summary_table) = c("factor","Total PCs","Cumulative Proportion \n of Variance")
 rownames(summary_table) = c("Heart Failure", "Study")
 
 saveRDS(summary_table, 

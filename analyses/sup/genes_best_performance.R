@@ -29,7 +29,7 @@ genes = names(fisher_rank)
 
 # 2. How the performance improves as we include more and more top genes
 
-ngenes = seq(50,12900,100)
+ngenes = seq(50,14000,100)
 names(ngenes) = ngenes
 
 InPerformance = map(ngenes, function(ingenes){ # We will include 100 genes at a time til 5k
@@ -75,7 +75,7 @@ saveRDS(InPerformance_zoom_df,
 
 # 3. How the performance worsens as we exclude top genes
 
-ngenes = seq(50,12900,100)
+ngenes = seq(50,14000,100)
 names(ngenes) = ngenes
 
 OutPerformance = map(ngenes, function(outgenes){ # We will include 100 genes at a time til 5k

@@ -27,8 +27,9 @@ meta_gex = get_complete_gex(meta_list = METAheart,
 
 # Annotating RNAseq and Microarray
 
-marrays = c("GSE57345","GSE42955","GSE1869",
-            "GSE3585","GSE26887","GSE5406")
+marrays = c("GSE76701","GSE57345","GSE42955",
+            "GSE1869","GSE3585","GSE26887",
+            "GSE5406","GSE16499")
 
 load("data/dictionaryIDs.ro")
 new_ids = dictionary %>% dplyr::filter(GEO_ID %in% marrays)
@@ -111,6 +112,8 @@ pcs_study = pcs_study %>% mutate(prop_var = as.character(prop_var))
 names(total_row) = colnames(pcs_study) = c("PCs","p_value","Prop. Var")
 
 pcs_study = bind_rows(pcs_study, total_row)
+
+print(pcs_study,n=100)
 
 # 4. Fitting a linear model to each PC of z-transformed hf samples
 # to find associations with DCM vs nDCM
