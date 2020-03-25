@@ -91,7 +91,7 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/added_value.R).
 
 #### Gene level variability (Supplemental Figure 10)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/gene_variability.R).
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_variability_anova.R).
 
 #### Functional transcriptomics (Figure 4)
