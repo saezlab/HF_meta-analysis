@@ -40,7 +40,9 @@ plot.HF = ggplot(data = HFgenes_tidy, aes(x= gene, y= t))+
   geom_point(aes(color =Study), size = 4, alpha = 0.6)+
   theme_classic()+
   labs(x="HF marker genes", y = "t-value")+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        text = element_text(size = 14))+
   geom_hline(yintercept = 0, color = "grey", linetype = 2)+
   geom_vline(xintercept = length(HFgenes_up)+0.5, color = "black", linetype =1)+
   ggtitle("HF-marker gene expression (t-values) for all studies in metaheart project")
