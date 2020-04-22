@@ -10,7 +10,7 @@ Experiments = names(METAheart)
 ### 1) Define the set of genes that should be up or down regulated in HF
 
 HFgenes_up = c("NPPA","NPPB","MYH7","MME", "COL1A1","COL3A1", "POSTN", "MMP2", "MMP9")
-HFgenes_dn = c("MYH6", "ATP2A2","SLC2A1", "KCNH2", "TNNT2", "")
+HFgenes_dn = c("MYH6", "ATP2A2","SLC2A1", "KCNH2", "TNNT2", "RYR2")
 
 ### 2) Analyzing the METAheart study for those genes
 # creating the dataframe to store the t values of the defined gene lists
@@ -23,7 +23,7 @@ rownames(HFgenes) = c(HFgenes_up, HFgenes_dn)
 for (study in names(METAheart)){
     studygenes = METAheart[[study]]$HF_limma %>% filter(ID %in% c(HFgenes_dn, HFgenes_up))
   for (gene in studygenes$ID){
-    HFgenes[gene,study] = studygenes %>% filter(ID == gene) %>% select(t)
+    HFgenes[gene,study] = studygenes %>% filter(ID == gene) %>% dplyr::select(t)
     }
   }
 
