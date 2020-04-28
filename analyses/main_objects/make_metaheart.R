@@ -166,7 +166,7 @@ METAheart = lapply(METAheart, function(x){
 
 experiments = names(METAheart)
 
-pdf(file = "other_res/boxplotsMETA.pdf",width = 13, height = 8)
+pdf(file = "data_processing/other_res/boxplotsMETA.pdf",width = 13, height = 8)
 for(x in experiments){
   boxplot(METAheart[[x]]$GEX, main=x)
 }
@@ -174,7 +174,7 @@ dev.off()
 
 # 5. Generate QC MDS
 
-pdf(file = "other_res/MDSMETA.pdf",width = 6, height = 4)
+pdf(file = "data_processing/other_res/MDSMETA.pdf",width = 6, height = 4)
 for(x in experiments){
   myMDS(METAheart[[x]]$GEX,METAheart[[x]]$TARGETS, main=x)
 }
