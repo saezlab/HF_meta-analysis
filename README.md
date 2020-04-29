@@ -91,7 +91,11 @@ Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blo
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/funcomics_tiles.R).
 
 #### Extrapolation of disease score (Figure 5)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/DS_Fetal_External.R).
-Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/DS_Fetal_External_plotting.R).
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/ds_fetal_external_studies.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/ds_fetal_external_studies_plot.R).
 
+#### Exploration of Consensus Signature (Figure 6)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/proteomics.R).
+and [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/fetal_signature_compare.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/fig1_clinic_samplesize.R).
 
