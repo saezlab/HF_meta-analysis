@@ -81,7 +81,7 @@ up_ES_plot = up_ES %>% ggplot(aes(x=factor(Reference,
         axis.title.x = element_blank(),
         legend.text = element_text(size = 9)) +
   scale_fill_gradientn(colours= pcolors, limits=c(-1, 1)) + 
-  coord_flip()
+  coord_flip() + ggtitle("Upregulated genes")
 
 up_ES_plot = up_ES_plot + theme(legend.position = "none")
 
@@ -101,7 +101,7 @@ down_ES_plot = down_ES %>% ggplot(aes(x=factor(Reference,
         axis.title = element_text(size=12),
         legend.text = element_text(size = 9)) +
   scale_fill_gradientn(colours= pcolors, limits=c(-1,1)) + 
-  coord_flip()
+  coord_flip() + ggtitle("Downregulated genes")
 
 
 es_legend = get_legend(down_ES_plot)
@@ -123,7 +123,7 @@ right_panel = plot_grid(up_ES_plot,down_ES_plot,
 right_panel = plot_grid(right_panel, es_legend,
                         nrow = 1, rel_widths = c(1,.25))
 
-pdf("./analyses/figures/main/reproducibility.pdf",
+pdf("./data/figures/main/Figure2.pdf",
     width = 10,
     height = 8)
 

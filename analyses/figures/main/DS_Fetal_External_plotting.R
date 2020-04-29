@@ -9,12 +9,8 @@ library(grid)
 
 
 ds_external_experiments = readRDS("data/paper_sup/ds_external_experiment.rds")
-ds_fetal_experiments = readRDS("data/paper_sup/ds_fetal_experiment.rds")
 ds_external_AUC = readRDS("data/paper_sup/ds_external_experiment_AUC.rds")
-ds_fetal_AUC = readRDS("data/paper_sup/ds_fetal_experiment_AUC.rds")
 cbPalette = c("005073","#d9534f")
-
-
 
 #### external plots
 # collect information of the AUC performance for each study
@@ -58,7 +54,7 @@ ds.ex.plot.et = ggplot(plot.ex.data.et,
 
   print(ds.ex.plot.et)
 
-  # 2. Plotting HF of technical variation
+# 2. Plotting HF of technical variation
   plot.ex.data.tech = plot.ex.data %>% 
     filter(study == "GSE3586" | study == "GSE52601")
   
@@ -84,61 +80,19 @@ ds.ex.plot.et = ggplot(plot.ex.data.et,
   
   print(ds.ex.plot.tech)
   
-  
-    
-##### fetal plots
-  
-  # collect information of the AUC performance for each study
-  s = data.frame("study" = names(ds_fetal_AUC),"AUC"= NA) %>% column_to_rownames("study")
-  for (x in names(ds_fetal_AUC)){
-    s[x,1] = ds_fetal_AUC[[x]]$AUC_All
-  }
-  
-  #create tidy data frame for plotting and include AUC into the label
-  plot.fet.data= enframe(ds_fetal_experiments, "study") %>% 
-    unnest() %>% 
-    left_join(s %>% rownames_to_column("study")) %>%
-    mutate(AUC = round(AUC,2)) %>%
-    mutate(label = paste0(study,'\n',"AUROC: ",AUC))
-
-#plot.fet.data$label[grepl("PRJNA522417", plot.fet.data$label)] = "Spurrell19"
-plot.fet.data$label= gsub("PRJNA522417", "Spurrell19", plot.fet.data$label)
-
-# Boxplots of fetal datasets
-ds.fet.plot = ggplot(plot.fet.data,
-                     aes(x=label, y=Risk_Score, color=HeartFailure)) +
-  geom_hline(yintercept = 0,
-             color = "grey",
-             linetype = "dashed")+
-  geom_boxplot(position=position_dodge(0.8))+
-  geom_jitter(position=position_dodge(0.8)) +
-  scale_colour_manual(values=c("005073","#499483")) + 
-  labs(y= "Disease Score",
-       x= "",
-       color = "Fetal Sample")+
-  theme_minimal()+
-  ylim(c(-2.5,2.1))+
-  theme(panel.grid.major = element_blank(),
-        axis.line.y = element_line(size =0.5),
-        axis.text = element_text(size= 10),
-        axis.title.y= element_text(size =13))
-        
-        print(ds.fet.plot)
-
-
 ##### combine fetal and external plot
 
-ds.ex.fet.plot = plot_grid(ds.ex.plot.et, ds.ex.plot.tech, ds.fet.plot+ggtitle("Fetal Samples") ,
+ds.ex.fet.plot = plot_grid(ds.ex.plot.et, ds.ex.plot.tech,
           nrow = 1,
-          rel_widths = c(1.5,1,1),
+          rel_widths = c(1.5,1),
           labels= "AUTO",
           align = "l")
 
 ds.ex.fet.plot
 #Save Figures as PDF
 
-pdf("analyses/figures/main/External_fetal_DS.pdf",
-    width = 12,
+pdf("data/figures/main/Figure5.pdf",
+    width = 9,
     height = 4)
 
 plot(ds.ex.fet.plot)

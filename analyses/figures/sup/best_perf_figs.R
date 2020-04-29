@@ -45,7 +45,7 @@ OutPerformance_plt = ggplot(OutPerformance_df,
   xlab("Number of top genes excluded in the signature")
 
 
-pdf("./analyses/figures/sup/best_perf_figs.pdf",
+pdf("./data/figures/sup/SupplementalFigure10.pdf",
     width = 10,
     height = 4.5)
 

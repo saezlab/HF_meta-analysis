@@ -88,7 +88,7 @@ anova_boxplt_v2 = ggplot(anova_confounding_mod,
   ylab("Prop of variance explained by HF")
 
 # Create figure
-pdf("analyses/figures/sup/genevar_complete.pdf",
+pdf("data/figures/sup/SupplementalFigure11.pdf",
     width = 10,
     height = 8)
 

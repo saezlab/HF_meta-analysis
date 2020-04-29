@@ -130,7 +130,7 @@ mytheme = gridExtra::ttheme_default(
 pcat_plot = tableGrob(pcs_data, rows = NULL, 
                       theme = mytheme)
 
-pdf("./data/figures/sup/SupplementalFigure8.pdf",
+pdf("./data/figures/sup/SupplementalFigure7.pdf",
     width = 15,
     height = 10)
 

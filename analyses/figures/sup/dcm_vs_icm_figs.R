@@ -29,7 +29,7 @@ pca_plot = ggplot(plotdf,aes(x = PC1, y=PC2,
              "%")) +
   ylab(paste("PC2",
              as.character(round(pca_data$importance[2,2] *100)),
-             "%"))
+             "%")) + labs(color = "Study")
 
 # 2. Datatable
 
@@ -41,7 +41,7 @@ pcat_plot = tableGrob(pcs_data, rows = NULL,
                       theme = mytheme)
 
 
-pdf("./analyses/figures/sup/dcm_icm.pdf",
+pdf("./data/figures/sup/SupplementalFigure8.pdf",
     width = 13,
     height = 9)
 

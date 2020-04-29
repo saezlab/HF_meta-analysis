@@ -17,7 +17,7 @@ genesets = readRDS("data/Genesets_Dec19.rds") #MSigDB gene sets
 # Load dororthea regulons
 dorothea_regulon_human = 
   read_csv("https://raw.githubusercontent.com/saezlab/ConservedFootprints/master/data/dorothea_benchmark/regulons/dorothea_regulon_human_v1.csv")
-# We obtain the regulons based on interactions with confidence level A, B and C
+# We obtain the regulons based on interactions with confidence level A, B, C and D
 regulons = dorothea_regulon_human %>%
   dplyr::filter(confidence %in% c("A","B","C","D")) %>%
   df2regulon()
@@ -35,7 +35,7 @@ lfc_matrix = (get_all_limma(meta_list = METAheart,
                             limma_column = "logFC"))[genes,]
 
 # Generating ranks for GSEA
-progeny_rank = dorothea_rank = gsea_rank = sort(rowMeans(sign(lfc_matrix),na.rm = T) * -log2(fisher_rank),
+progeny_rank = dorothea_rank = gsea_rank = sort(rowMeans(sign(lfc_matrix),na.rm = T) * -log10(fisher_rank),
                  decreasing = T) #Ranking penalizing inconsistency in direction
 
 saveRDS(progeny_rank, 
@@ -49,7 +49,8 @@ red_gensets = genesets[c("MSIGDB_CANONICAL","MSIGDB_HMARKS",
 gsea_meta = lapply(red_gensets, function(x){
   set.seed(1234) # fgsea unstable results
   GSEA_results = fgsea(pathways = x, stats = gsea_rank,
-                       minSize = 15, maxSize = 300, nperm = 1000) %>% as_tibble() %>% 
+                       minSize = 15, maxSize = 300, 
+                       nperm = 1000) %>% as_tibble() %>% 
     arrange(desc(abs(NES)))
 })
 
@@ -61,11 +62,17 @@ selected_ps = enframe(gsea_meta) %>% unnest() %>%
 selected_ps = selected_ps[!duplicated(selected_ps$pathway),]
 
 saveRDS(selected_ps, 
-        file = "data/figure_objects/GSEA_results.rds")
+        file = "data/figure_objects/GSEA_results_sel.rds")
 
 #For supplementary
 all_GSEA = enframe(gsea_meta,name = "database","value") %>% unnest() %>% 
-  arrange(desc(abs(NES)))
+  arrange(desc(abs(NES))) %>% dplyr::mutate(padj = p.adjust(pval,method = "BH"))
+
+print("N gene sets")
+print(dim(all_GSEA))
+
+print("N p_val<0.05")
+print(dim(all_GSEA %>% dplyr::filter(pval<=0.05)))
 
 saveRDS(all_GSEA, 
         file = "data/shiny/GSEA_results.rds")
@@ -73,9 +80,27 @@ saveRDS(all_GSEA,
 # 1.1 miRNAs
 gset = genesets$MSIGDB_MIRNA
 set.seed(1234) # fgsea unstable results
-miRNA_results = fgsea(pathways = gset, stats = gsea_rank,
-                     minSize = 15, maxSize = 300, nperm = 1000) %>% as_tibble() %>% 
-  arrange(desc(abs(NES))) %>% dplyr::select(pathway, pval, padj, ES, NES)
+
+#miRNA_results = fgsea(pathways = gset, stats = gsea_rank,
+#                     minSize = 15, maxSize = 300, nperm = 1000) %>% as_tibble() %>% 
+#  arrange(desc(abs(NES))) %>% dplyr::select(pathway, pval, padj, ES, NES)
+
+# What if we try viper
+
+miRNAs_regulons = enframe(gset,value = "target",name = "tf") %>% 
+  unnest() %>% mutate(mor = 1, likelihood = 1) %>%
+  df2regulon()
+
+miRNA_results = msviper_summary(msviper(gsea_rank,
+                                              miRNAs_regulons,
+                                              minsize = 10,
+                                              verbose = FALSE))
+
+print("N miRNA")
+print(dim(miRNA_results))
+
+print("N p_val<0.05")
+print(dim(miRNA_results %>% dplyr::filter(pvalue<=0.05)))
 
 saveRDS(miRNA_results, 
         file = "data/figure_objects/GSEA_mir_results.rds")
@@ -88,6 +113,12 @@ dorothea_results = msviper_summary(msviper(dorothea_rank,
                                            regulons,
                                            minsize = 10,
                                            verbose = FALSE))
+
+print("N TFs")
+print(dim(dorothea_results))
+
+print("N p_val<0.05")
+print(dim(dorothea_results %>% dplyr::filter(pvalue<=0.05)))
 
 saveRDS(dorothea_results, 
         file = "data/figure_objects/dorothea_results.rds")
@@ -140,6 +171,13 @@ prog_res = tibble(progeny_scores = meta_progeny[,1],
                   progeny_pvals, pathway = names(progeny_pvals)) %>%
            arrange(progeny_pvals)
 
+print("N paths")
+print(dim(prog_res))
+
+print("N p_val<0.05")
+print(dim(prog_res %>% dplyr::filter(progeny_pvals<=0.05)))
+
+
 saveRDS(prog_res, 
         file = "data/figure_objects/PROGENy_results.rds")
 
@@ -153,7 +191,7 @@ WriteXLS(x = c("all_GSEA",
                "dorothea_results",
                "prog_res",
                "miRNA_results"), 
-         ExcelFileName = "data/paper_sup/functional_results.xlsx",
+         ExcelFileName = "data/paper_sup/SupplementalTable4.xlsx",
          SheetNames = c("GSEA",
                         "TF_activities",
                         "Pathway_activities",
