@@ -52,8 +52,10 @@ pca_plot_z = ggplot(pca_plot_df, aes(x = PC1, y=PC2,
 
 tsne_plotdf = readRDS(file = "data/figure_objects/tsne_z.rds")
 
-tsne_plot_z = ggplot(tsne_plotdf, aes(x = tSNE1, y=tSNE2, 
-                                     color = ExpID, shape = Tech)) + 
+tsne_plot_z = ggplot(tsne_plotdf %>% 
+                       dplyr::mutate(Study = ExpID),
+                     aes(x = tSNE1, y=tSNE2, 
+                                     color = Study, shape = Tech)) + 
   geom_point() + theme_minimal() +
   theme(axis.title = element_text(size =12),
         axis.text= element_text(size =12),
@@ -82,7 +84,7 @@ final_plot = plot_grid(all_panels, all_legend, nrow = 1,
 
 # TO DO: define size to export
 
-pdf("./analyses/figures/sup/gene_var.pdf",
+pdf("./data/figures/sup/SupplementalFigure6.pdf",
     width = 10,
     height = 8)
 plot(final_plot)
