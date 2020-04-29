@@ -4,7 +4,7 @@
 
 library(tidyverse)
 
-METAheart= readRDS("data/METAheart.rds")
+METAheart= readRDS("HGEX_data/METAheart.rds")
 Experiments = names(METAheart)
 
 ### 1) Define the set of genes that should be up or down regulated in HF
@@ -21,9 +21,11 @@ rownames(HFgenes) = c(HFgenes_up, HFgenes_dn)
 
 # loop over studies and genes to copy t-values into the dataframe
 for (study in names(METAheart)){
-    studygenes = METAheart[[study]]$HF_limma %>% filter(ID %in% c(HFgenes_dn, HFgenes_up))
+    studygenes = METAheart[[study]]$HF_limma %>%
+      filter(ID %in% c(HFgenes_dn, HFgenes_up))
   for (gene in studygenes$ID){
-    HFgenes[gene,study] = studygenes %>% filter(ID == gene) %>% select(t)
+    HFgenes[gene,study] = studygenes %>% filter(ID == gene) %>% 
+      select(t)
     }
   }
 
@@ -37,22 +39,34 @@ HFgenes_tidy = HFgenes %>%
 ## plot results
 plot.HF = ggplot(data = HFgenes_tidy, aes(x= gene, y= t))+
   geom_boxplot()+
-  geom_point(aes(color =Study), size = 4, alpha = 0.6)+
+  geom_point(aes(color =Study), 
+             size = 4, 
+             alpha = 0.6)+
   theme_classic()+
-  labs(x="HF marker genes", y = "t-value")+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  geom_hline(yintercept = 0, color = "grey", linetype = 2)+
-  geom_vline(xintercept = length(HFgenes_up)+0.5, color = "black", linetype =1)+
+  labs(x="HF marker genes",
+       y = "t-value")+
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        axis.text = element_text(size=12))+
+  geom_hline(yintercept = 0, 
+             color = "grey",
+             linetype = 2)+
+  geom_vline(xintercept = (length(HFgenes_up)+ 0.5),
+             color = "black",
+             linetype =1)+
   ggtitle("HF-marker gene expression (t-values) for all studies in metaheart project")
+
+
 print(plot.HF)
 
 
 ### 3) Save figure
 
-pdf("data/figures/sup/SupplementalFigure4.pdf",
+pdf("figures_pdfs/suppFig4_HF_markergenes.pdf",
     width = 12,
-    height = 8)
+    height = 5)
 
 plot.HF
 
 dev.off()
+

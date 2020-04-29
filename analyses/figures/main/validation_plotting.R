@@ -27,12 +27,14 @@
   gsea_rank_undir= meta_rank$log10pval
   names(gsea_rank_undir) = meta_rank$gene
   
-  gsea_genesets = c(proteinsets, "fet"= fetal_genesets_GSE,"fet2"= fetal_gensets_P)
-  names(gsea_genesets) = c("plasma_prot_manifestHF", "plasma_prot_earlyHF", "fetal_cardiac_transcriptome_1", "fetal_cardiac_transcriptome_2" )
+  gsea_genesets = c(proteinsets,fetal_genesets_GSE,fetal_gensets_P)
+  names(gsea_genesets) = c("plasma_prot_manifest_HF", 
+                           "plasma_prot_early_HF", 
+                           "fetal_GSE52601", 
+                           "fetal_Spurrell19" )
   
-  fgseaRes = fgsea(pathways=  gsea_genesets,
-                         stats = gsea_rank_undir,
-                         nperm= 6000) %>% # update package, use higher permutations
+  fgseaRes2 = fgsea(pathways=  gsea_genesets,
+                         stats = gsea_rank_undir) %>% # update package, use higher permutations
     as_tibble()
   
   ## Plot enrichment pvals:

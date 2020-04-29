@@ -45,11 +45,10 @@ plot.coverage = ggplot(data = sample.size,
                        aes(x= study, 
                            y= genes))+
   geom_col(fill = "#444C5C")+
-  
-  coord_flip()+
   ylab(expression(Gene~coverage~(10^3))) + 
   theme_minimal()+
-  scale_y_continuous(position = "bottom") + 
+  scale_y_continuous(position = "right") + 
+  coord_flip()+
   theme(axis.title.y = element_blank(),
         text = element_text(size =15),
         axis.title.x= element_text(size= 12)
@@ -69,3 +68,4 @@ pdf("HGEX_figures/sup/plot_gene_coverage.pdf",
     height= 5)
 plot.coverage.jaccard
 dev.off()
+
