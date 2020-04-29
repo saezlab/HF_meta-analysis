@@ -61,7 +61,7 @@ lfc_legend_plot = lfc_legend_df %>%
   scale_x_discrete(labels=lfc_legend_df$axis_text) + 
   ggtitle("LFC") + coord_flip()
 
-pdf("analyses/figures/main/meta_analysis_hmps_simple_legend.pdf",
+pdf("data/figures/main/Figure3_legend.pdf",
     width = 1,
     height = 4)
 
@@ -159,7 +159,7 @@ gene_expression_plot = plot_grid(plot_list[[1]],plot_list[[2]], plot_list[[3]],
                                  last_g,
                                  ncol = 1, align = 'v', rel_widths = c(rep(0.12, 13),0.34))
 
-pdf("analyses/figures/main/meta_analysis_hmps_simple.pdf",
+pdf("data/figures/main/Figure3B.pdf",
     width = 8.70,
     height = 3.54)
 
@@ -187,7 +187,7 @@ rank_plot = ggplot(pvalue_df, aes(x = rank,
   xlab("Meta-analysis Rank")
 
 
-pdf("analyses/figures/main/meta_analysis_rank.pdf",
+pdf("data/figures/main/Figure3A.pdf",
     width = 8.70,
     height = 4.24)
 

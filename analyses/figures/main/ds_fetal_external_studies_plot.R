@@ -19,6 +19,7 @@ ds_external_AUC = readRDS("data/ds_external_experiment_AUC.rds")
 ds_fetal_experiments = readRDS("data/ds_fetal_experiment.rds")
 ds_fetal_AUC = readRDS("data/ds_fetal_experiment_AUC.rds")
 
+<<<<<<< HEAD:analyses/figures/main/ds_fetal_external_studies_plot.R
 # colour definition
 cbPalette = c("005073","#d9534f")
 
@@ -27,6 +28,13 @@ cbPalette = c("005073","#d9534f")
 # Title: Disease score calculation based on the top 500 genes from the consensus signature 
 # for diverse HF studies.
 
+=======
+ds_external_experiments = readRDS("data/paper_sup/ds_external_experiment.rds")
+ds_external_AUC = readRDS("data/paper_sup/ds_external_experiment_AUC.rds")
+cbPalette = c("005073","#d9534f")
+
+#### external plots
+>>>>>>> 6ae187817287ba67599b69877e60b0932ca6b946:analyses/figures/main/DS_Fetal_External_plotting.R
 # collect information of the AUC performance for each study
 auc = data.frame("study" = names(ds_external_AUC),"AUC"= NA) %>% column_to_rownames("study")
 for (x in names(ds_external_AUC)){
@@ -67,7 +75,9 @@ ds.ex.plot.et = ggplot(plot.ex.data.et,
 
   print(ds.ex.plot.et)
 
-  # filter HF studies with technical variation
+# filter HF studies with technical variation
+
+# 2. Plotting HF of technical variation
   plot.ex.data.tech = plot.ex.data %>% 
     filter(study == "GSE3586" | study == "GSE52601" | study == "GSE76701")
   
@@ -95,6 +105,7 @@ ds.ex.plot.et = ggplot(plot.ex.data.et,
   
   print(ds.ex.plot.tech)
   
+<<<<<<< HEAD:analyses/figures/main/ds_fetal_external_studies_plot.R
   
 ## combine previous plots for Figure 5
  ds.ex.plot = plot_grid(ds.ex.plot.et, ds.ex.plot.tech, 
@@ -159,6 +170,21 @@ ds.fet.plot = ggplot(plot.fet.data,
 
 pdf("figures_pdfs/ds_fetal.pdf",
     width = 4,
+=======
+##### combine fetal and external plot
+
+ds.ex.fet.plot = plot_grid(ds.ex.plot.et, ds.ex.plot.tech,
+          nrow = 1,
+          rel_widths = c(1.5,1),
+          labels= "AUTO",
+          align = "l")
+
+ds.ex.fet.plot
+#Save Figures as PDF
+
+pdf("data/figures/main/Figure5.pdf",
+    width = 9,
+>>>>>>> 6ae187817287ba67599b69877e60b0932ca6b946:analyses/figures/main/DS_Fetal_External_plotting.R
     height = 4)
 
 ds.fet.plot

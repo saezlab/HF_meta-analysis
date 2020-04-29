@@ -50,7 +50,7 @@ pca_plot = ggplot(pca_plot_df_scale, aes(x = PC1, y=PC2,
         #                              size=1)
         #axis.line.x = element_line(color="black", size = 1),
         #axis.line.y = element_line(color="black", size = 1)
-  ) + labs(color = "Experiment")
+  ) + labs(color = "Study")
 
 pca_legend = get_legend(pca_plot)
 pca_plot = pca_plot + theme(legend.position = "none",
@@ -130,7 +130,7 @@ mytheme = gridExtra::ttheme_default(
 pcat_plot = tableGrob(pcs_data, rows = NULL, 
                       theme = mytheme)
 
-pdf("./analyses/figures/sup/gcentered_figs.pdf",
+pdf("./data/figures/sup/SupplementalFigure7.pdf",
     width = 15,
     height = 10)
 

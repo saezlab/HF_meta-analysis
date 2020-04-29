@@ -27,7 +27,7 @@ pval = ggplot(deg_stats$pvalue,
         panel.background = element_rect(fill=NULL,
                                         color = "black"),
         panel.grid = element_blank()) +
-        xlab("dataset") + ylab("-log10(p-value)")
+        xlab("") + ylab("-log10(p-value)")
 
 tval = ggplot(deg_stats$tvalue,
        aes(x = factor(experiment,levels = names(experiment_size)), 
@@ -40,7 +40,7 @@ tval = ggplot(deg_stats$tvalue,
         panel.background = element_rect(fill=NULL,
                                         color = "black"),
         panel.grid = element_blank()) +
-  xlab("dataset")
+  ylab("t-value")
 
 lfc = ggplot(deg_stats$lfc,
        aes(x = factor(experiment,
@@ -54,9 +54,9 @@ lfc = ggplot(deg_stats$lfc,
         panel.background = element_rect(fill=NULL,
                                         color = "black"),
         panel.grid = element_blank()) +
-  xlab("dataset")
+  ylab("LFC") + xlab("")
 
-pdf("./analyses/figures/sup/deg_stats.pdf",
+pdf("./data/figures/sup/SupplementalFigure3.pdf",
     width = 8,
     height = 10)
 

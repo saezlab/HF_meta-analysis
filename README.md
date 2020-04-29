@@ -2,22 +2,14 @@
 
 ### Abstract
 
-**Background**
+**Aims:** 
+Transcriptomic studies have contributed to fundamental knowledge of myocardial remodeling in human heart failure (HF). However, the agreement on the crucial genes in HF is limited and systematic efforts to integrate evidences of multiple patient cohorts are lacking.  Here we aimed to provide an unbiased consensus transcriptional signature of human end-stage HF by comprehensive comparison and analysis of publicly available datasets. 
 
-During heart failure (HF) the myocardium undergoes ventricular remodeling, which is accompanied by changes in gene expression. Transcriptomic studies have contributed to fundamental knowledge of this remodeling. However, many studies do not agree on the differentially expressed marker genes. We hypothesized that a comprehensive meta-analysis of available studies would help to address this incongruence and provide a more unified biological understanding of the transcriptome in HF. 
+**Methods and Results:** 
+We curated and uniformly processed 16 public transcriptomic studies of left ventricular samples from 263 healthy and 653 failing human hearts. Transfer learning approaches revealed conserved disease patterns across all studies independent of technical differences. We meta-analyzed the dysregulation of 14041 genes to extract a consensus signature of HF. Estimation of the activities of 343 transcription factors and 14 signalling pathways, as well as the enrichment of 5998 biological processes and 182 micro-RNAs, confirmed the established aspects of the functional landscape of the disease and revealed novel ones. We provide all results in a free public resource https://saezlab.shinyapps.io/hgex_app/ to facilitate further use and interpretation of the results. We exemplify usage by deciphering fetal gene reprogramming and tracing myocardial origin of the plasma proteome biomarkers in HF patients.
 
-**Methods**
-
-We curated and uniformly processed 14 public transcriptomic data sets consisting of left ventricular samples from 265 healthy and 642 failing hearts. We assessed their comparability by applying classifiers based on transfer learning. We then combined all datasets to extract a consensus gene signature. Combining this consensus signature with biological prior knowledge, we estimated transcription factor and signalling pathway activities.
-
-**Results**
-
-Although single studies reported highly dissimilar marker genes, transfer knowledge based approaches revealed that disease patterns are conserved across studies. We derived a gene ranking that reflects consistent molecular hallmarks of HF. The ranking is strongly enriched in fibrosis-related gene sets and contains significant footprints of numerous transcription factors including Nanog, Sox2, Pbx3, Mef2; pathways including Jak-Stat and miRNAs including MIR-206, MIR-514. Results are provided at https://saezlab.shinyapps.io/hgex_app/.
-
-**Discussion**
-
-We demonstrated the feasibility of combining transcriptional studies from different technologies, years and centers. We extracted a consensus gene signature as a valuable resource to understand common molecular patterns in HF. To our knowledge, this report represents the largest meta-analysis of transcriptional HF studies to date.
-
+**Conclusion:** 
+We demonstrated the feasibility of combining transcriptional studies from different HF patient cohorts. In our compendium we provide a robust and consistent collection of molecular markers of end-stage HF that may guide the identification of novel targets with diagnostic or therapeutic relevance.
 ***
 
 ### Availabilty of data
@@ -56,18 +48,18 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 #### Generation of list of external data sets used (already provided in Zenodo)
 Script available for external [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_external_metaheart.R) and for fetal studies [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_fetal_metaheart.R).
 
-#### Test of marker genes in all experiments (Supplemental Figure 3)
+#### Test of marker genes in all experiments (Supplemental Figure 4)
 Script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/HF_marker_genes.R).
 
-#### Data description: PCAs of all data sets and z-transformed data sets, t-SNE (Supplemental Figure 5)
+#### Data description: PCAs of all data sets and z-transformed data sets, t-SNE (Supplemental Figure 6)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/general_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gen_var_figs.R).
 
-#### Data description: PCAs of gene-centered data (Supplemental Figure 6)
+#### Data description: PCAs of gene-centered data (Supplemental Figure 7)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_centered_analysis.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gcentered_figs.R).
 
-#### Data description: DCM vs ICM for gene std matrices (Supplemental Figure 7)
+#### Data description: DCM vs ICM for gene std matrices (Supplemental Figure 8)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/dcm_vs_icm.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/dcm_vs_icm_figs.R).
 
@@ -75,7 +67,7 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/study_comparison.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/reproducibility_figs.R).
 
-#### Robustness of replicability measurements (Supplemental Figure 8)
+#### Robustness of replicability measurements (Supplemental Figure 9)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/robustness_glist_size.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/robustness_es_ds.R).
 
@@ -83,14 +75,14 @@ Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/get_metaranking.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/meta_main.R).
 
-#### Gradient of information in the meta-analysis (Supplemental Figure 9)
+#### Gradient of information in the meta-analysis (Supplemental Figure 10)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/genes_best_performance.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/best_perf_figs.R).
 
 #### Added value of meta-analysis
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/added_value.R).
 
-#### Gene level variability (Supplemental Figure 10)
+#### Gene level variability (Supplemental Figure 11)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_variability_anova.R).
 

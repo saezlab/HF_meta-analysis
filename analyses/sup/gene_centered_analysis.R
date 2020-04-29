@@ -101,6 +101,8 @@ summary_table = cbind(c("Heart Failure","study"),rbind(c(ncol(pcs_hf), total_pro
 colnames(summary_table) = c("factor","Total PCs","Cumulative Proportion \n of Variance")
 rownames(summary_table) = c("Heart Failure", "Study")
 
+print(summary_table)
+
 saveRDS(summary_table, 
         file = "data/figure_objects/gcentered_PCs_sum.rds")
 

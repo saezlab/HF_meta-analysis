@@ -68,7 +68,7 @@ pairwise_plot_es = ggplot(pairwise_es_res, aes(factor(n_genes,
 
 
 # Joint figure
-pdf("./analyses/figures/sup/robustness_es_ds.pdf",
+pdf("./data/figures/sup/SupplementalFigure9.pdf",
     width = 16,
     height = 8)
 
