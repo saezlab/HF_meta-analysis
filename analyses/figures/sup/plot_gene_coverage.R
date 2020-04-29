@@ -13,7 +13,8 @@ library(cowplot)
 
 #loading prerequisites
 sample.size = readRDS(file ="HGEX_data/clinical_description/sample_sizes.rds")
-jaccard_df = readRDS(file = "HGEX_data/figure_objects/jaccard_df.rds")
+jaccard_df = readRDS(file = "HGEX_data/figure_objects/jaccard_df.rds") %>%
+  mutate(value = ifelse(Var1 == Var2, 0, value))
 
 
 ##################### J'accard plot of gene coverage
@@ -31,7 +32,7 @@ plot.jaccard = ggplot(jaccard_df, aes(x = Var1,
         text = element_text(size =15))+
     scale_fill_gradientn(colours=RColorBrewer::brewer.pal(9, 'RdPu'),
                        limits=c(0, 1)) +
-  labs(fill = "J'accard \nIndex")
+  labs(fill = "Jaccard \nIndex")
 
 ##################### Absolute Gene coverage per study
 
