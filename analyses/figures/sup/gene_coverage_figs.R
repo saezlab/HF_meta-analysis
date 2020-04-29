@@ -3,7 +3,7 @@
 # Copyright (c) [2020] [Jan D. Lanzer]
 # jan.lanzer@biquant.uni-heidelberg.de
 
-# Description: Plotting of Gene coverage per study
+# Description: Plotting of gene coverage per study
 
 library(dplyr)
 library(ggplot2)
@@ -11,7 +11,7 @@ library(grid)
 library(gridExtra)
 library(cowplot)
 
-#loading prerequisites
+#loading prerequisites (output from samplesize_calculator.R and gene_coverage.R)
 sample.size = readRDS(file ="HGEX_data/clinical_description/sample_sizes.rds")
 jaccard_df = readRDS(file = "HGEX_data/figure_objects/jaccard_df.rds") %>%
   mutate(value = ifelse(Var1 == Var2, 0, value))
