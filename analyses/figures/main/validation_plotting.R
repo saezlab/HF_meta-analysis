@@ -162,12 +162,13 @@
   plot.enrichment2= plot_grid(blank_p, blank_p, plot.enrichment, ncol = 1, labels = c("A", "", "B"))
   plot1 = plot_grid(plot.enrichment2 ,plot.fetal.gene, ncol = 1, labels= c("","D"))
   
-  plot5 = plot_grid( plot1, plot4, rel_widths = c(1.2,1))
   
-  pdf("data/figures/main/fig6.pdf",
+  Figure6 = plot_grid( plot1, plot4, rel_widths = c(1.2,1))
+  
+  pdf("data/figures/main/Figure6.pdf",
       width = 10,
       height = 10)
-  plot5
+  Figure6
   dev.off()
   
   

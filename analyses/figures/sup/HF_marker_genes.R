@@ -4,7 +4,7 @@
 
 library(tidyverse)
 
-METAheart= readRDS("HGEX_data/METAheart.rds")
+METAheart= readRDS("data/METAheart.rds")
 Experiments = names(METAheart)
 
 ### 1) Define the set of genes that should be up or down regulated in HF
@@ -62,7 +62,7 @@ print(plot.HF)
 
 ### 3) Save figure
 
-pdf("figures_pdfs/suppFig4_HF_markergenes.pdf",
+pdf("data/figures/sup/SupplementalFigure4.pdf",
     width = 12,
     height = 5)
 
