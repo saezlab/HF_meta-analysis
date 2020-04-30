@@ -7,7 +7,7 @@
 
 library(tidyverse)
 
-META  = readRDS("HGEX_data/METAheart.rds")
+META  = readRDS("data/METAheart.rds")
 
 ct= c()
 dcm= c()
@@ -25,7 +25,7 @@ sample.size = data.frame("study"= as.character(names(META)), "CT"= ct, "DCM"= dc
   mutate(total = rowSums(.[,2:4])) %>%
   arrange(desc(total))
 
-saveRDS(sample.size, file ="HGEX_data/clinical_description/sample_sizes.rds")
+saveRDS(sample.size, file ="data/clinical_description/sample_sizes.rds")
 
 
 

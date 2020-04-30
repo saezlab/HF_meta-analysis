@@ -12,8 +12,8 @@ library(gridExtra)
 library(cowplot)
 
 #loading prerequisites (output from samplesize_calculator.R and gene_coverage.R)
-sample.size = readRDS(file ="HGEX_data/clinical_description/sample_sizes.rds")
-jaccard_df = readRDS(file = "HGEX_data/figure_objects/jaccard_df.rds") %>%
+sample.size = readRDS(file ="data/clinical_description/sample_sizes.rds")
+jaccard_df = readRDS(file = "data/figure_objects/jaccard_df.rds") %>%
   mutate(value = ifelse(Var1 == Var2, 0, value))
 
 
@@ -63,7 +63,7 @@ plot.coverage.jaccard =  plot_grid(plot.coverage,plot.jaccard,
                                    labels = c("A","B"), 
                                    rel_widths = c(1,1.2))
 
-pdf("HGEX_figures/sup/plot_gene_coverage.pdf",
+pdf("data/figures/sup/SupplementalFigure2.pdf",
     width = 10,
     height= 5)
 plot.coverage.jaccard

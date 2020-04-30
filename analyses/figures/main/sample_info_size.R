@@ -14,14 +14,14 @@ library(gridExtra)
 library(grid)
 
 #loading prerequisites
-load("HGEX_data/clinical_description/dictionaryIDs.ro")
-sample = readRDS("HGEX_data/clinical_description/sample_sizes.rds")%>% 
+load("data/clinical_description/dictionaryIDs.ro")
+sample = readRDS("data/clinical_description/sample_sizes.rds")%>% 
   as_tibble() %>% 
   mutate(study = as.character(study))
 Experiments = dictionary$newID
-META  = readRDS("HGEX_data/METAheart.rds")
+META  = readRDS("data/METAheart.rds")
 
-clinicalboolean = as.tibble(read.table("HGEX_data/clinical_description/Tables for MetaHeart Manuscript - Table 2 - Clinical Characteristics.csv", 
+clinicalboolean = as.tibble(read.table("data/clinical_description/Tables for MetaHeart Manuscript - Table 2 - Clinical Characteristics.csv", 
                                        header = T, 
                                        sep = ",", 
                                        stringsAsFactors = F)) 
@@ -65,7 +65,7 @@ plot.tile
 
 ##################### Sample size 
 
-sample.size = readRDS(file="HGEX_data/clinical_description/sample_sizes.rds") 
+sample.size = readRDS(file="data/clinical_description/sample_sizes.rds") 
 
 sample.plot = sample.size %>% 
   gather(key = Sample, value = number , CT, ICM, DCM)  %>%
@@ -125,7 +125,7 @@ fig_1
 
 ####################### print PDFs
 
-pdf("HGEX_figures/main/fig1_clinic_samplesize.pdf",
+pdf("data/figures/main/Figure1.pdf",
     width = 10,
     height = 6)
 fig_1

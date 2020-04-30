@@ -10,7 +10,7 @@
 library(tidyverse)
 
 #load data
-METAheart= readRDS("HGEX_data/METAheart.rds")
+METAheart= readRDS("data/METAheart.rds")
 experiments = names(METAheart)
 names(experiments) = experiments
 
@@ -75,6 +75,6 @@ jaccard_df = reshape2::melt(t(jaccard_res_mat),na.rm = T) %>%
                        levels = rev(names(experiment_size))))
 
 #save file for plotting
-saveRDS(jaccard_df, file = "HGEX_data/figure_objects/jaccard_df.rds")
+saveRDS(jaccard_df, file = "data/figure_objects/jaccard_df.rds")
 
 
