@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+/shinyapp/data-raw/*
+shinyapp/sub/debugging.R
+shinyapp/sub/tidy_data.R
+shinyapp/rsconnect/*
