@@ -20,7 +20,7 @@ meta_rank = as_tibble(read.csv("data/METArank_March2020.csv",
                      header= T,
                      stringsAsFactors = F))
 
-
+fetal_experiments$PRJNA522417$TARGETS
 
 #### Part 1. 
 #### Analysis of Datasets with technical and etiological variation
@@ -59,9 +59,9 @@ for (study in names(external_experiments)){
 
 # save disease score
 saveRDS(mat_ds_means,
-        file = "data/ds_external_experiment.rds")
+        file = "data/figure_objects/ds_external_experiment.rds")
 saveRDS(mat_ds,
-        file = "data/ds_external_experiment_AUC.rds")
+        file = "data/figure_objects/ds_external_experiment_AUC.rds")
 
 
 # B) Disease Score statistics
@@ -82,7 +82,7 @@ lm_results = lm_results %>% rownames_to_column("Study")
 
 # save results of LM
 saveRDS(lm_results,
-        file = "data/ds_external_experiment_lm.rds")
+        file = "data/figure_objects/ds_external_experiment_lm.rds")
 
 # save results of DS as .xlsx file
 ds_GSE84796  = mat_ds_means$GSE84796
@@ -92,7 +92,7 @@ ds_GSE10161  = mat_ds_means$GSE10161
 ds_GSE3586   = mat_ds_means$GSE3586
 
 WriteXLS(x = c("ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","ds_GSE3586", "lm_results"),
-         ExcelFileName = "data/ds_external_results.xlsx",
+         ExcelFileName = "data/paper_sup/ds_external_results.xlsx",
          SheetNames = c("ds_GSE84796","ds_GSE4172","ds_GSE9800","ds_GSE10161","ds_GSE3586","lm_results")
 )
 
@@ -159,12 +159,33 @@ for (study in names(fetal_experiments_copy)){
 mat_ds_means$PRJNA522417 = mat_ds_means_spurrell$PRJNA522417
 mat_ds$PRJNA522417 = mat_ds_spurrell$PRJNA522417
 
-
 # save disease score for fetal studies
 saveRDS(mat_ds_means,
-        file = "data/ds_fetal_experiment.rds")
+        file = "data/figure_objects/ds_fetal_experiment.rds")
 saveRDS(mat_ds,
-        file = "data/ds_fetal_experiment_AUC.rds")
+        file = "data/figure_objects/ds_fetal_experiment_AUC.rds")
+
+# prepare plotting table
+ds_fetal_experiments = readRDS("data/figure_objects/ds_fetal_experiment.rds")
+ds_fetal_AUC = readRDS("data/figure_objects/ds_fetal_experiment_AUC.rds")
+
+# collect information of the AUC performance for each study
+auc = data.frame("study" = names(ds_fetal_AUC),"AUC"= NA) %>% column_to_rownames("study")
+for (x in names(ds_fetal_AUC)){
+  auc[x,1] = ds_fetal_AUC[[x]]$AUC_All
+}
+
+#create tidy data frame for plotting and include AUC into the label
+plot.fet.data= enframe(ds_fetal_experiments, "study") %>% 
+  unnest() %>% 
+  left_join(auc %>% rownames_to_column("study")) %>%
+  mutate(AUC = round(AUC,2)) %>%
+  mutate(label = paste0(study,'\n',"AUROC: ",AUC))
+
+plot.fet.data$label= gsub("PRJNA522417", "Spurrell19", plot.fet.data$label)
+
+#save plotting table
+saveRDS(plot.fet.data, file= "data/figure_objects/ds_fetal_plot.rds")
 
 
 # B) Disease Score statistics
@@ -192,14 +213,8 @@ ds_GSE52501 = mat_ds_means$GSE52601
 ds_PRNJA522417 = mat_ds_means$PRJNA522417
 
 WriteXLS(x= c("ds_GSE52501","ds_PRNJA522417","lm_results"),
-         ExcelFileName = "data/ds_fetal_results.xslx",
+         ExcelFileName = "data/paper_sup/ds_fetal_results.xslx",
          SheetNames = c("ds_GSE52501","ds_PRNJA522417","lm_results")
 )
-
-
-
-
-
-
 
 

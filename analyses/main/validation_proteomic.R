@@ -1,21 +1,22 @@
-# Copyright (c) [2020] [Ricardo O. Ramirez Flores]
+# Copyright (c) [2020] [Ricardo O. Ramirez Flores, Jan D. Lanzer]
 # roramirezf@uni-heidelberg.de
 
 #' Description: Here we trace the cardiac origin
-#' of HF plasma proteomic biomarkers from Egerstedt.
+#' of HF plasma proteomic biomarkers from Egerstedt (PMID: 31862877)
 #' 
 #' 
 
-source("HGEX_src/data_utils.R") #general functions 
-source("HGEX_src/misc_utils.R")
-library('biomaRt')
+source("src/data_utils.R") #general functions 
+source("src/misc_utils.R")
+library(biomaRt)
 library(tidyr)
 library(tibble)
 library(dplyr)
 library(fgsea)
 library(ggrepel)
 
-METAheart = readRDS(file = "HGEX_data/METAheart.rds") #main object
+## prepare conensus signature 
+METAheart = readRDS(file = "data/METAheart.rds") #main object
 meta_targets = get_tibble_union(METAheart,"TARGETS") %>% 
   dplyr::select(Sample,HeartFailure,ExpID) %>% 
   mutate(grl_id = paste(Sample,ExpID,sep = "_")) 
@@ -37,9 +38,8 @@ t_matrix =(get_all_limma(meta_list = METAheart,
 lfc_matrix = (get_all_limma(meta_list = METAheart,
                             limma_column = "logFC"))[genes,]
 
-# Getting proteins analysed
-
-processPROTEOMICS = function(filepath = "proteomics/feature_dict.tsv") {
+#### Analyze Proteome 
+processPROTEOMICS = function(filepath = "data/proteomics/feature_dict.tsv") {
   con = file(filepath, "r")
   line_df = c()
   while ( TRUE ) {
@@ -49,8 +49,6 @@ processPROTEOMICS = function(filepath = "proteomics/feature_dict.tsv") {
     }
     split_line = unlist(strsplit(line,split="\t"))
     split_line = sapply(split_line,function(x) gsub("\"","",x))
-    #split_line = sapply(split_line,function(x) gsub(" ","",x))
-    #split_line[2] = gsub("\"","",split_line[2])
     line_df = rbind(line_df,split_line)
   }
   close(con)
@@ -78,9 +76,12 @@ proteins_dictionary = left_join(proteins_dictionary, g_annotation,
 
 proteins_dictionary = na.omit(unique(proteins_dictionary))
 
-# Reading result tables
-#Manifest
-manifest_res = as_tibble(data.frame(processPROTEOMICS("proteomics/manifestHF.tsv")[-1,1:5],
+
+
+#### Reading result tables
+
+# Manifest HF 
+manifest_res = as_tibble(data.frame(processPROTEOMICS("data/proteomics/manifestHF.tsv")[-1,1:5],
                                     stringsAsFactors = F))
 
 colnames(manifest_res) = c("protein","or","beta","se","pval")
@@ -97,8 +98,8 @@ plasma_BM_manifest = manifest_res %>% dplyr::filter(adj_pval<0.01,
 plasma_BM_manifest$meta_rank = unlist(sapply(plasma_BM_manifest$hgnc_symbol, 
                                              function(x) which(genes %in% x)))
 
-#Development
-dev_res = as_tibble(data.frame(processPROTEOMICS("proteomics/developmentHF.tsv")[-1,1:5],
+# Development HF 
+dev_res = as_tibble(data.frame(processPROTEOMICS("data/proteomics/developmentHF.tsv")[-1,1:5],
                                     stringsAsFactors = F))
 
 colnames(dev_res) = c("protein","hr","beta","se","pval")
@@ -112,31 +113,19 @@ dev_res = dev_res %>%
 plasma_BM_dev = dev_res %>% dplyr::filter(adj_pval<0.01, 
                                           hgnc_symbol %in% genes)
 
+#save a copy without pval
+plasma_BM_dev_full = dev_res %>% dplyr::filter(hgnc_symbol %in% genes)
+
 plasma_BM_dev$meta_rank = unlist(sapply(plasma_BM_dev$hgnc_symbol, 
                                         function(x) which(genes %in% x)))
 
-# Enrich markers into meta_ranking
-
-# GSEA
-
-enrichment_results = fgsea(pathways = list("manifest" = unique(plasma_BM_manifest$hgnc_symbol),
-                      "development" = unique(plasma_BM_dev$hgnc_symbol)),
-      stats = -log10(fisher_rank),
-      nperm = 10000)
-
+# save Biomarker list for furhter analysis in validation_plotting.R
 saveRDS(list("manifest" = unique(plasma_BM_manifest$hgnc_symbol),
-     "development" = unique(plasma_BM_dev$hgnc_symbol)), "HGEX_data/protein_genesets.rds")
+     "development" = unique(plasma_BM_dev$hgnc_symbol)), "data/figure_objects/protein_genesets.rds")
+ 
 
-# Inference of Biomarkers of myocardial origin - MANIFEST
-#meant = rowMeans(t_matrix[enrichment_results$leadingEdge[[1]],],
-#                 na.rm = T)
 
-#manifest_agrmnt = plasma_BM_manifest %>% 
-#  dplyr::filter(hgnc_symbol %in% names(meant)) %>%
-#  dplyr::select(hgnc_symbol,or) %>% 
-#  dplyr::mutate(logor = log2(or)) %>% 
-#  unique()
-
+## Inference of Biomarkers of myocardial origin - MANIFEST HF
 meant = rowMeans(t_matrix,
                  na.rm = T)
 
@@ -149,69 +138,23 @@ manifest_agrmnt = plasma_BM_manifest %>%
 
 manifest_agrmnt$trnscrpt_evid_t = meant[manifest_agrmnt$hgnc_symbol]
 
-saveRDS(manifest_agrmnt, "HGEX_data/proteomics_manifest.rds")
+# save Biomarker list for plotting in validation_plotting.R
+saveRDS(manifest_agrmnt, "data/figure_objects/proteomics_manifest.rds")
 
-manifest_all_plt = ggplot(manifest_agrmnt, aes(x= logor,y = trnscrpt_evid_t)) +
-  geom_point() + theme_minimal() + 
-  theme(axis.title = element_text(size =12),
-        axis.text = element_text(size =12),
-        panel.grid = element_blank(),
-        panel.background = element_rect(fill=NULL, colour='black',
-                                        size=1)) +
-  geom_vline(xintercept = 0) + geom_hline(yintercept = 0) +
-  xlab("Proteomics log2(OR)") + ylab("Meta-analysis mean t-value")
 
-manifest_filt_plt = ggplot(manifest_agrmnt %>%
-                           dplyr::filter(sign(logor) == sign(trnscrpt_evid_t)), 
-                           aes(x= logor,y = trnscrpt_evid_t,
-                               label = hgnc_symbol)) +
-  geom_point() + theme_minimal() + 
-  geom_text_repel(size=3) + 
-  theme(axis.title = element_text(size =12),
-        axis.text = element_text(size =12),
-        panel.grid = element_blank(),
-        panel.background = element_rect(fill=NULL, colour='black',
-                                        size=1)) +
-  geom_vline(xintercept = 0) + geom_hline(yintercept = 0) +
-  xlab("Proteomics log2(OR)") + ylab("Meta-analysis mean t-value") 
 
-# Inference of Biomarkers of myocardial origin - DEVELOPMENT
-
-#meant = rowMeans(t_matrix[enrichment_results$leadingEdge[[2]],],
-#                 na.rm = T)
-
-#dev_agrmnt = plasma_BM_dev %>% 
-#  dplyr::filter(hgnc_symbol %in% names(meant)) %>%
-#  dplyr::select(hgnc_symbol,hr) %>% 
-#  dplyr::mutate(loghr = log2(hr)) %>% 
-#  unique()
-
+## Inference of Biomarkers of myocardial origin - DEVELOPMENT HF
 meant = rowMeans(t_matrix,
                  na.rm = T)
 
-dev_agrmnt = plasma_BM_dev %>% 
-  dplyr::filter(hgnc_symbol %in% names(meant),
-                meta_rank <= 3000) %>%
+dev_agrmnt = plasma_BM_dev_full %>% 
+  dplyr::filter(hgnc_symbol %in% names(meant))  %>%
   dplyr::select(hgnc_symbol,hr) %>% 
   dplyr::mutate(loghr = log2(hr)) %>% 
   unique()
 
 dev_agrmnt$trnscrpt_evid_t = meant[dev_agrmnt$hgnc_symbol]
 
-saveRDS(dev_agrmnt, "HGEX_data/proteomics_dev.rds")
-
-dev_all_plt = ggplot(dev_agrmnt, 
-                     aes(x= loghr,
-                         y = trnscrpt_evid_t,
-                         label = hgnc_symbol)) +
-  geom_point() + theme_minimal() + 
-  geom_text_repel(size=3) + 
-  theme(axis.title = element_text(size =12),
-        axis.text = element_text(size =12),
-        panel.grid = element_blank(),
-        panel.background = element_rect(fill=NULL, colour='black',
-                                        size=1)) +
-  geom_vline(xintercept = 0) + geom_hline(yintercept = 0) +
-  xlab("Proteomics log2(HR)") + ylab("Meta-analysis mean t-value")
-
+# save Biomarker list for plotting in validation_plotting.R
+saveRDS(dev_agrmnt, "data/figure_objects/proteomics_dev.rds")
 

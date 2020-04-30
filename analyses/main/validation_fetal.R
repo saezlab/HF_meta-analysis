@@ -1,40 +1,42 @@
-# Author: Jan Lanzer 2020
-# Description: This script performs an analysis for fetal samples from the meta heart and compare
-#               Results with those obtained from the meta heart analysis
-  # fetal study: GSE52061, PRJNA522417
+# MIT License
+
+# Copyright (c) [2020] [Jan D. Lanzer]
+# jan.lanzer@biquant.uni-heidelberg.de
+
+# Description: This script performs an analysis of fetal cardiac transcriptome samples 
+# fetal studies: GSE52061, PRJNA522417
 
 library(tidyverse)
 library(limma)
 library(fgsea)
 library(viper)
-library(progeny)
+#library(progeny)
 library(WriteXLS)
 library("Hmisc")
 library(ggrepel)
 
 #files
-fetal_experiments = readRDS("HGEX_data/fetal_METAheart.rds")
-METAheart= readRDS("HGEX_data/METAheart.rds")
-meta_rank = as_tibble(read.csv("HGEX_data/METArank_March2020.csv",
+fetal_experiments = readRDS("data/fetal_METAheart.rds")
+METAheart= readRDS("data/METAheart.rds")
+meta_rank = as_tibble(read.csv("data/METArank_March2020.csv",
                                header = T,
                                sep= ",",
                                stringsAsFactors = F) )
 #source code
-source(file = "HGEX_src/data_utils.R")
-source("HGEX_src//misc_utils.R")
+source("src/data_utils.R")
+source("src/misc_utils.R")
 
 
-### 2 fetal studies can be analyzed
-#select which study should be analyzed
+### two fetal studies can be analyzed
+### select which study should be analyzed
 
-#study= "GSE52601"
-study= "PRJNA522417"
+study= "GSE52601"
+#study= "PRJNA522417"
 
 targets = fetal_experiments[[study]]$TARGETS
 count = fetal_experiments[[study]]$GEX
 
-###
-
+### perform differntial expression analysis with limma
 fetal = as.factor(targets$fetal)
 design = model.matrix(~fetal)
 rownames(design) <- targets$Sample
@@ -54,28 +56,7 @@ ggplot(data= fetalDEA, mapping = aes(x=logFC, y= -log10(adj.P.Val)))+
   ggtitle("fetal vs adult non failing")
 
 #save for further plotting in Script validation_plotting.R
-saveRDS(fetalDEA, file =paste0("HGEX_data/figure_objects/fetalDEgenes_",study,".rds"))
-
-### Compare DE genes from fetal study with top500 genes in meta ranking:
-
-# volcanoplot of DEA and colored genes from the top500 in HF consensus signature
-fetalDEA_mod = fetalDEA %>% 
-  mutate(metaTop500= gene %in% meta_rank$gene[1:500]) %>% 
-  arrange(metaTop500)
-  
-
-
-ggplot(data= fetalDEA_mod, mapping = aes(x=logFC, y= -log10(adj.P.Val) ))+
-  geom_point(aes(color= metaTop500))+
-  geom_hline(yintercept = -log10(0.05), color = "grey", linetype = 2)+
-  ggtitle("fetal vs adult non failing")+
-    theme_minimal()+
-  geom_label_repel(aes(label=ifelse( (metaTop500 == T) & (-log10(adj.P.Val)> 5), gene,"")),
-                   box.padding   = 0.35, 
-                   point.padding = 0.5,
-                   segment.color = 'grey50') 
-
-
+saveRDS(fetalDEA, file =paste0("data/figure_objects/fetalDEgenes_",study,".rds"))
 
 
 ### Enrichment Analysis with fgsea
@@ -107,7 +88,7 @@ fgseaRes_undir = fgsea(pathways=  geneset,
   as_tibble()
 
 #save for further plotting in Script validation_plotting.R
-saveRDS(geneset,file =  paste0("HGEX_data/figure_objects/fealgeneset",
+saveRDS(geneset,file =  paste0("data/figure_objects/fealgeneset",
                         study,
                         ".rds"))
 
@@ -135,7 +116,8 @@ fgseaRes_dir = fgsea(pathways = geneset,
   arrange(desc(NES))
 
 
-### Transcription factor analysis
+
+#### Transcription factor analysis
 
 ##Function to group Dorothea regulons. (Can be deleted when updated source script is used)
 ## Input: A data frame containing Dorothea regulons, as stored in
@@ -177,7 +159,21 @@ dorothea_results_meta = msviper_summary(msviper(gsea_rank,
                                            minsize = 10,
                                            verbose = FALSE))
 
+#plotting table
+plot.TFs.data = dorothea_results_fet %>% 
+  left_join(dorothea_results_meta, by = "RegulonName") %>% 
+  filter(pvalue.x <0.05) %>% 
+  mutate(quadrant = (sign(NES.x) == sign(NES.y)),
+         metasig = (pvalue.y <0.05),
+         colored = (quadrant == T) & (metasig == T)) %>%
+  rename(NES.fetal = NES.x, 
+         NES.meta = NES.y)
 
+#save TF activities for plotting in validation_plotting.R
+saveRDS(plot.TFs.data, file = paste0("data/figure_objects/fetalTFs_",study, ".rds"))
+
+
+####explore correlations between TFs in consensus HF and fetal
 #compare results
 setfetal = dorothea_results_fet %>% filter(pvalue <0.05)
 setmeta = dorothea_results_meta %>% filter(pvalue<0.05)
@@ -207,16 +203,3 @@ targets = TF_red %>%
   filter(sign(NES.x) == sign(NES.y))%>%
   mutate(corr = cor(NES.x,NES.y))
 
-#plotting table
-plot.TFs.data = dorothea_results_fet %>% 
-  left_join(dorothea_results_meta, by = "RegulonName") %>% 
-  filter(pvalue.x <0.05) %>% 
-  mutate(quadrant = (sign(NES.x) == sign(NES.y)),
-                         metasig = (pvalue.y <0.05),
-                         colored = (quadrant == T) & (metasig == T)) %>%
-  rename(NES.fetal = NES.x, 
-         NES.meta = NES.y)
-
-#save plotting table 
-saveRDS(plot.TFs.data, file = paste0("HGEX_data/figure_objects/fetalTFs_",study, ".rds"))
-  
