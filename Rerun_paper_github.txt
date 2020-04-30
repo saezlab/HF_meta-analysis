@@ -1,0 +1,75 @@
+# Generates META heart object
+Rscript ./analyses/main_objects/make_metaheart.R;
+
+# Creating object of external data sets
+Rscript ./analyses/main_objects/make_external_metaheart.R;
+
+# Creating object of fetal data sets
+Rscript ./analyses/main_objects/make_fetal_metaheart.R;
+
+# Differential expression analysis - ran in make_metaheart.R
+# Rscript ./analyses/main/de_analysis.R;
+
+# Plotting statistics
+Rscript ./analyses/sup/deg_stats.R;
+Rscript ./analyses/figures/sup/deg_stats.R;
+
+# Marker genes
+Rscript ./analyses/figures/sup/HF_marker_genes.R;
+
+# Data description: PCAs of all data and z-transformed data
+Rscript ./analyses/sup/general_variability.R;
+# Figure
+Rscript ./analyses/figures/sup/gen_var_figs.R;
+
+# Data description: gene centered data
+Rscript ./analyses/sup/gene_centered_analysis.R;
+# Figure
+Rscript ./analyses/figures/sup/gcentered_figs.R;
+
+# Data description: DCM vs ICM for gene std matrices
+Rscript ./analyses/sup/dcm_vs_icm.R;
+#Figure
+Rscript ./analyses/figures/sup/dcm_vs_icm_figs.R;
+
+# Reproducibility/Replicability
+Rscript ./analyses/main/study_comparison.R;
+# Figure
+Rscript ./analyses/figures/main/reproducibility_figs.R;
+
+# Robustness of measurements
+Rscript ./analyses/sup/robustness_glist_size.R;
+Rscript ./analyses/figures/sup/robustness_es_ds.R;
+
+# Meta-analysis
+Rscript ./analyses/main/get_metaranking.R;
+Rscript ./analyses/figures/main/meta_main.R;
+
+# Added value
+Rscript ./analyses/main/added_value.R;
+
+# Selection of top genes
+Rscript ./analyses/sup/genes_best_performance.R;
+# Figure
+Rscript ./analyses/figures/sup/best_perf_figs.R;
+
+# Gene level variability, takes time
+Rscript ./analyses/sup/gene_variability.R;
+# Figure
+Rscript ./analyses/figures/sup/gene_variability_anova.R;
+
+# Funcomics
+Rscript ./analyses/main/functional_analysis.R;
+# Figure
+Rscript ./analyses/figures/main/funcomics_bars.R;
+
+# External datasets
+Rscript ./analyses/main/DS_Fetal_External.R;
+Rscript ./analyses/figures/main/DS_Fetal_External_plotting.R;
+
+
+
+
+
+
+
