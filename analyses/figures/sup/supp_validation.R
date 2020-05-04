@@ -142,9 +142,9 @@ suppfigure= plot_grid(plot.ds.fet,
                       labels= "AUTO")
 suppfigure
 
-pdf("data/figures/sup/fetal_comparison_GSE.pdf",
+pdf("data/figures/sup/SupplementalFigure12.pdf",
     width = 10,
-    height = 5)
+    height = 8)
 suppfigure
 dev.off()
 
