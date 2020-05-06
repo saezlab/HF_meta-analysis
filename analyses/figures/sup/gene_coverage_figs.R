@@ -13,7 +13,7 @@ library(cowplot)
 
 #loading prerequisites (output from samplesize_calculator.R and gene_coverage.R)
 sample.size = readRDS(file ="data/clinical_description/sample_sizes.rds")
-jaccard_df = readRDS(file = "data/figure_objects/jaccard_df.rds") %>%
+jaccard_df = readRDS(file = "data/figure_objects/jaccard_df_allgenes.rds") %>%
   mutate(value = ifelse(Var1 == Var2, 0, value))
 
 
