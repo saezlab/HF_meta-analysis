@@ -38,13 +38,21 @@ Raw data of each experiment used is not provided as it can be downloaded from th
 ***
 
 ### Analyses & Scripts
+
 #### Generation of list of data sets used in all analysis (already provided in Zenodo)
 Script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_metaheart.R).
+
+#### General description of studies (Figure 1)
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/sample_info_size.R).
+
+#### Gene coverage (Supplemental Figure 2)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_coverage.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_coverage_figs.R).
 
 #### Differential expression analysis
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/de_analysis.R).
 
-#### Differential expression analysis, gene level statistics visualization (Supplemental Figure 2)
+#### Differential expression analysis, gene level statistics visualization (Supplemental Figure 3)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/deg_stats.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/deg_stats.R).
 
@@ -89,16 +97,17 @@ Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blo
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_variability_anova.R).
 
+#### Extrapolation of disease score (Supplemental Figure 12)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/ds_fetal_external_studies.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/ds_fetal_external_studies_plot.R).
+
 #### Functional transcriptomics (Figure 4)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/functional_analysis.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/funcomics_tiles.R).
 
-#### Extrapolation of disease score (Figure 5)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/ds_fetal_external_studies.R).
-Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/ds_fetal_external_studies_plot.R).
-
-#### Exploration of Consensus Signature (Figure 6)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/proteomics.R).
-and [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/fetal_signature_compare.R).
-Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/fig1_clinic_samplesize.R).
+#### Exploration of Consensus Signature (Figure 5, Supplemental Figure 13)
+Proteomic analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/validation_proteomic.R).
+Fetal response analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/validation_fetal.R).
+Main Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/validation_plotting.R).
+Supplemental Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/supp_validation.R).
 
