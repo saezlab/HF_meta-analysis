@@ -26,7 +26,8 @@
                                  sep= ",",
                                  stringsAsFactors = F) ) %>%
     mutate(log10pval = -log10(fisher_pvalue)) %>%
-    arrange(desc(log10pval))
+    arrange(desc(log10pval)) %>%
+    mutate(rank = seq(1, dim(.)[1]))
   
   gsea_rank_undir= meta_rank$log10pval
   names(gsea_rank_undir) = meta_rank$gene
@@ -77,7 +78,7 @@
     theme_minimal()+
     theme(legend.position = "none")+
     xlab("t-value (Spurrell19)")+
-    ylab("Mean t-value in HF")+
+    ylab("Mean t-value in HF-CS")+
     geom_hline(yintercept = 0, color = "grey", linetype = 2)+
     geom_vline(xintercept= 0, color = "grey", linetype = 2)+
     geom_label_repel(aes(label=ifelse( (metaTop500 == T) &
@@ -102,7 +103,7 @@
     theme_minimal()+
     theme(legend.position = "none")+
     xlab("TF activity (NES)(Spurrell19)")+
-    ylab("TF activity in HF (NES)")+
+    ylab("TF activity in HF-CS (NES)")+
     geom_hline(yintercept = 0, color = "grey", linetype = 2)+
     geom_vline(xintercept= 0, color = "grey", linetype = 2)+
     geom_label_repel(aes(label=ifelse((metasig == T) &
@@ -132,7 +133,7 @@
     theme_minimal()+
     theme(legend.position = "none")+
     xlab("plasma_prot_manifest_HF log2(OR)")+
-    ylab("Mean t-value in HF consensus")+
+    ylab("Mean t-value in HF-CS")+
     geom_hline(yintercept = 0, color = "grey", linetype = 2)+
     geom_vline(xintercept= 0, color = "grey", linetype = 2)+
     geom_label_repel(aes(label=ifelse( (metaTop500 == T) &
@@ -171,4 +172,81 @@
   Figure6
   dev.off()
   
-    
+
+  
+  #### save full results from validation analysis as xslx for paper supplement
+library(WriteXLS)
+  
+ proteom_manifest_HF= prot_manifest %>% 
+    rename(Gene.ID = hgnc_symbol,
+           logOR_study= logor,
+           p.val_HF.CS = fisher_pvalue,
+           t.val_HF.CS = mean_t,
+           rank_HF.CS= rank, 
+           leading.edge= leading) %>%
+    select(Gene.ID, logOR_study, p.val_HF.CS,t.val_HF.CS, rank_HF.CS, leading.edge)
+  
+ fetal_genes_Spurrell19 = fetalDEA %>%
+   rename(Gene.ID = gene,
+          logFC_study= logFC,
+          adj.p.val_study = adj.P.Val,
+          p.val_HF.CS = fisher_pvalue,
+          t.val_HF.CS = mean_t,
+          rank_HF.CS= rank, 
+          leading.edge= leading) %>%
+   select(Gene.ID, logFC_study, adj.p.val_study ,p.val_HF.CS,t.val_HF.CS, rank_HF.CS, leading.edge)
+   
+fetal_TFs_Spurrell19=  plot.fetal.TFs.data %>% 
+   rename(TF_name = RegulonName,
+          NES_HF.CS = NES.meta,
+          NES_study =NES.fetal,
+          p.val_HF.CS = pvalue.y,
+          p.val_study = pvalue.x) %>% 
+   select(TF_name, NES_study, p.val_study, NES_HF.CS,p.val_HF.CS)
+ 
+fetal_genes_GSE52601 = readRDS(file ="data/figure_objects/fetalDEgenes_GSE52601.rds") %>% 
+  inner_join(meta_rank, by = "gene") %>% 
+  filter(adj.P.Val< 0.05) %>%
+  mutate(leading = gene %in% fgseaRes$leadingEdge[[3]]) %>%
+  arrange(desc(fisher_pvalue)) %>%
+  rename(Gene.ID = gene,
+         logFC_study= logFC,
+         adj.p.val_study = adj.P.Val,
+         p.val_HF.CS = fisher_pvalue,
+         t.val_HF.CS = mean_t,
+         rank_HF.CS= rank, 
+         leading.edge= leading) %>%
+  select(Gene.ID, logFC_study, adj.p.val_study ,p.val_HF.CS,t.val_HF.CS, rank_HF.CS, leading.edge)
+
+fetal_TFs_GSE52601= readRDS(file="data/figure_objects/fetalTFs_GSE52601.rds") %>%
+  rename(TF_name = RegulonName,
+         NES_HF.CS = NES.meta,
+         NES_study =NES.fetal,
+         p.val_HF.CS = pvalue.y,
+         p.val_study = pvalue.x) %>% 
+  select(TF_name, NES_study, p.val_study, NES_HF.CS,p.val_HF.CS)
+
+proteom_early_HF = readRDS("data/figure_objects/proteomics_dev.rds") %>%
+  inner_join(meta_rank %>% rename(hgnc_symbol = gene), by = "hgnc_symbol") %>%
+  mutate(leading = hgnc_symbol %in% fgseaRes$leadingEdge[[2]]) %>%
+  rename(Gene.ID = hgnc_symbol,
+         logHR_study= loghr,
+         p.val_HF.CS = fisher_pvalue,
+         t.val_HF.CS = mean_t,
+         rank_HF.CS= rank, 
+         leading.edge= leading) %>%
+  select(Gene.ID, logHR_study, p.val_HF.CS,t.val_HF.CS, rank_HF.CS, leading.edge)
+
+WriteXLS(x= c("proteom_manifest_HF",
+              "proteom_early_HF",
+              "fetal_genes_Spurrell19",
+              "fetal_TFs_Spurrell19",
+              "fetal_genes_GSE52601",
+              "fetal_TFs_GSE52601"),
+         SheetNames = c("proteom_manifest_HF",
+                        "proteom_early_HF",
+                        "fetal_genes_Spurrell19",
+                        "fetal_TFs_Spurrell19",
+                        "fetal_genes_GSE52601",
+                        "fetal_TFs_GSE52601"),
+         ExcelFileName = "data/paper_sup/SupplementalTalble5.xlsx")  

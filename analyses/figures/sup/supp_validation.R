@@ -142,9 +142,9 @@ suppfigure= plot_grid(plot.ds.fet,
                       labels= "AUTO")
 suppfigure
 
-pdf("data/figures/sup/SupplementalFigure12.pdf",
-    width = 10,
-    height = 8)
+pdf("data/figures/sup/SupplementalFigure13.pdf",
+    width = 9,
+    height = 9)
 suppfigure
 dev.off()
 
