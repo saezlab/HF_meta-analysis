@@ -13,10 +13,12 @@ output$gene_regulation_boxplot = renderPlotly({
       geom_point(aes(color = study), size = 4, alpha = 0.6) +
       theme_classic() +
       labs(x = "HF marker genes", y = "t-value", color = "Study") +
-      theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
+      theme(panel.grid.major = element_blank(),
+            panel.grid.minor = element_blank(),
+            axis.text = element_text(size= 11)) +
       geom_hline(yintercept = 0, color = "grey", linetype = 2) +
       # geom_vline(xintercept = length(HFgenes_up)+0.5, color = "black", linetype =1) +
-      ggtitle("HF-marker gene expression (t-values) for all studies in metaheart project")
+      ggtitle("")
     
     ggplotly(gene_regulation_boxplot, tooltip = c("label"))
 

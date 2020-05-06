@@ -1,22 +1,19 @@
-## A Meta-Analysis on the Transcriptomic Landscape of end-stage Human Heart Failure
+## Welcome to **RefHF**, the Reference for the Heart Failure transcriptome
 
-### Abstract:
 
-**Background**
+### Abstract
 
-During heart failure (HF) the myocardium undergoes ventricular remodeling, which is accompanied by changes in gene expression. Transcriptomic studies have contributed to fundamental knowledge of this remodeling. However, many studies do not agree on the differentially expressed marker genes. We hypothesized that a comprehensive meta-analysis of available studies would help to address this incongruence and provide a more unified biological understanding of the transcriptome in HF. 
+RefHF is a user friendly portal to explore, analyze and download the transcriptional human end-stage heart failure consensus signature (HF-CS).
 
-**Methods**
+The HF-CS is based on a meta-analysis of 16 independent studies. 
 
-We curated and uniformly processed 16 public transcriptomic data sets consisting of left ventricular samples from 263 healthy and 653 failing hearts. We assessed their comparability by applying classifiers based on transfer learning. We then combined all datasets to extract a consensus gene signature. Combining this consensus signature with biological prior knowledge, we estimated transcription factor and signalling pathway activities.
 
-**Results**
+### Method
 
-Although single studies reported highly dissimilar marker genes, transfer knowledge based approaches revealed that disease patterns are conserved across studies. We derived a gene ranking that reflects consistent molecular hallmarks of HF. The ranking is strongly enriched in fibrosis related gene sets and contains numerous significantly altered transcription factors including Nanog, Sox2, Pbx3, Mef2; pathways, including Jak-Stat, and miRNAs, including MIR-206, MIR-18A.
-
-**Discussion**
-
-We demonstrated the feasibility of combining transcriptional studies from different technologies, years and centers. We extracted a consensus gene signature as a resource to understand common molecular patterns in HF. To our knowledge, this report represents the largest meta-analysis of transcriptional HF studies to date
+<p>We curated and uniformly processed 16 public transcriptomic studies of left ventricular samples from 263 healthy and 653 failing human hearts. Transfer learning approaches revealed conserved disease patterns across all studies independent of technical differences. We meta-analyzed the dysregulation of 14041 genes to extract a consensus signature of HF. Estimation of the activities of 343 transcription factors, 14 signalling pathways, and 182 micro RNAs, as well as the enrichment of 5998 biological processes confirmed the established aspects of the functional landscape of the disease and revealed novel ones. In RefHF, we provide all results as a public resource to facilitate further use and interpretation of the results. </p>
+<p>
+This resource can be leveraged in many ways, please refer to the original publication for examples where we investigate i) fetal gene reprogramming and ii) myocardial origin of the plasma proteome using the HF-CS.
+</p>
 
 ### Graphical abstract
 

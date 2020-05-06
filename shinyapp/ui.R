@@ -49,7 +49,7 @@ ui = function(request) {
           tabsetPanel(
             type = "tabs",
             tabPanel("Individual", DT::dataTableOutput("individual_sub")),
-            tabPanel("Summary", DT::dataTableOutput("summary_sub"))
+            tabPanel("Consensus", DT::dataTableOutput("summary_sub"))
           )
         )
       ),
@@ -96,7 +96,7 @@ ui = function(request) {
           tabsetPanel(
             type = "tabs",
             tabPanel("Individual", DT::dataTableOutput("individual")),
-            tabPanel("Summary", DT::dataTableOutput("summary"))
+            tabPanel("Consensus", DT::dataTableOutput("summary"))
           )
         )
       ),

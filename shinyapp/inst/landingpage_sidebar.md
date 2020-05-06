@@ -1,7 +1,13 @@
 <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 
-#### Welcome to the HF-Application
-With this resource we want to facilitate the collaborative crowdsourcing of the functional characterization of the transcriptional landscape of human Heart Failure (HF). In this portal it is possible to query the consensus HF transcriptional signature obtained from meta-analyzing 16 publicly available datasets. We provide access to the functional characterization of the signature, including transcription factor and signalling pathway activies, as well as the enrichment of canonical pathways. You can also test for enrichment of additional processes. 
+#### Overview of RefHF
+
+Within RefHF we provide following services: 
+- **Gene query.** Assess consistency of a gene of interest by exploring its position in the HF-CS
+- **Gene set enrichment analysis**. Assess wether a gene set of interest is enriched in the HF-CS
+- Explore and Download the **HF-CS**. 
+- Explore the **functional interpreation** of HF-CS.
+- **Study overview**. Get an overview of the included studies from different perspectives
 
 <i class="far fa-comment"></i> designed to interactively explore the results of <a href="..." target="_blank">*...*</a>.
 

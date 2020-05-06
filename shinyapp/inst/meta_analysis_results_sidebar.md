@@ -1,6 +1,6 @@
-#### Table of the results of the meta-analysis
+#### Explore the whole consensus signature of heart failure
 
-Here you can query the raw results of the Fisher combined test of all genes tested and the results from the differential expression analysis between healthy and HF patients in individual studies.
+Results of individual studies are provided as well as the consensus statistics. Raw results can be queried and downloaded.
 
 
 
