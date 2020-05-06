@@ -106,7 +106,7 @@ ds.ex.plot.et = ggplot(plot.ex.data.et,
                              align = "l")
   
 #Save Figures as PDF
-  pdf("data/figures/main/Figure5.pdf",
+  pdf("data/figures/sup/SupplementalFigure12.pdf",
       width = 10,
       height = 4)
   
