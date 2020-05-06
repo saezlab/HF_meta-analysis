@@ -6,10 +6,13 @@
 Transcriptomic studies have contributed to fundamental knowledge of myocardial remodeling in human heart failure (HF). However, the agreement on the crucial genes in HF is limited and systematic efforts to integrate evidences of multiple patient cohorts are lacking.  Here we aimed to provide an unbiased consensus transcriptional signature of human end-stage HF by comprehensive comparison and analysis of publicly available datasets. 
 
 **Methods and Results:** 
-We curated and uniformly processed 16 public transcriptomic studies of left ventricular samples from 263 healthy and 653 failing human hearts. Transfer learning approaches revealed conserved disease patterns across all studies independent of technical differences. We meta-analyzed the dysregulation of 14041 genes to extract a consensus signature of HF. Estimation of the activities of 343 transcription factors and 14 signalling pathways, as well as the enrichment of 5998 biological processes and 182 micro-RNAs, confirmed the established aspects of the functional landscape of the disease and revealed novel ones. We provide all results in a free public resource https://saezlab.shinyapps.io/hgex_app/ to facilitate further use and interpretation of the results. We exemplify usage by deciphering fetal gene reprogramming and tracing myocardial origin of the plasma proteome biomarkers in HF patients.
+We curated and uniformly processed 16 public transcriptomic studies of left ventricular samples from 263 healthy and 653 failing human hearts. Transfer learning approaches revealed conserved disease patterns across all studies independent of technical differences. We meta-analyzed the dysregulation of 14041 genes to extract a consensus signature of HF. Estimation of the activities of 343 transcription factors, 14 signalling pathways, and 182 micro RNAs, as well as the enrichment of 5998 biological processes confirmed the established aspects of the functional landscape of the disease and revealed novel ones. We provide all results in a free public resource [RefHF](https://saezlab.shinyapps.io/hgex_app/) to facilitate further use and interpretation of the results. We exemplify usage by deciphering fetal gene reprogramming and tracing myocardial origin of the plasma proteome biomarkers in HF patients.
 
 **Conclusion:** 
 We demonstrated the feasibility of combining transcriptional studies from different HF patient cohorts. In our compendium we provide a robust and consistent collection of molecular markers of end-stage HF that may guide the identification of novel targets with diagnostic or therapeutic relevance.
+
+<img src="SummarizingFigure.png" align="center" width="800">
+
 ***
 
 ### Availabilty of data
@@ -35,13 +38,21 @@ Raw data of each experiment used is not provided as it can be downloaded from th
 ***
 
 ### Analyses & Scripts
+
 #### Generation of list of data sets used in all analysis (already provided in Zenodo)
 Script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main_objects/make_metaheart.R).
+
+#### General description of studies (Figure 1)
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/sample_info_size.R).
+
+#### Gene coverage (Supplemental Figure 2)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_coverage.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_coverage_figs.R).
 
 #### Differential expression analysis
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/de_analysis.R).
 
-#### Differential expression analysis, gene level statistics visualization (Supplemental Figure 2)
+#### Differential expression analysis, gene level statistics visualization (Supplemental Figure 3)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/deg_stats.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/deg_stats.R).
 
@@ -86,16 +97,17 @@ Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blo
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/sup/gene_variability.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/gene_variability_anova.R).
 
+#### Extrapolation of disease score (Supplemental Figure 12)
+Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/ds_fetal_external_studies.R).
+Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/ds_fetal_external_studies_plot.R).
+
 #### Functional transcriptomics (Figure 4)
 Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/functional_analysis.R).
 Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/funcomics_tiles.R).
 
-#### Extrapolation of disease score (Figure 5)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/ds_fetal_external_studies.R).
-Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/ds_fetal_external_studies_plot.R).
-
-#### Exploration of Consensus Signature (Figure 6)
-Analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/proteomics.R).
-and [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/fetal_signature_compare.R).
-Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/fig1_clinic_samplesize.R).
+#### Exploration of Consensus Signature (Figure 5, Supplemental Figure 13)
+Proteomic analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/validation_proteomic.R).
+Fetal response analysis script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/main/validation_fetal.R).
+Main Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/main/validation_plotting.R).
+Supplemental Figure script available [here](https://github.com/saezlab/HF_meta-analysis/blob/master/analyses/figures/sup/supp_validation.R).
 
