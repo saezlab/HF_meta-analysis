@@ -75,6 +75,6 @@ jaccard_df = reshape2::melt(t(jaccard_res_mat),na.rm = T) %>%
                        levels = rev(names(experiment_size))))
 
 #save file for plotting
-saveRDS(jaccard_df, file = "data/figure_objects/jaccard_df.rds")
+saveRDS(jaccard_df, file = "data/figure_objects/jaccard_df_allgenes.rds")
 
 
