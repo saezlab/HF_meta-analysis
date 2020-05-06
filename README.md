@@ -11,7 +11,7 @@ We curated and uniformly processed 16 public transcriptomic studies of left vent
 **Conclusion:** 
 We demonstrated the feasibility of combining transcriptional studies from different HF patient cohorts. In our compendium we provide a robust and consistent collection of molecular markers of end-stage HF that may guide the identification of novel targets with diagnostic or therapeutic relevance.
 
-<img src="man/figures/graphical_abstract.png" align="center" width="800">
+<img src="SummarizingFigure.png" align="center" width="800">
 
 ***
 
