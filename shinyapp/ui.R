@@ -48,15 +48,15 @@ ui = function(request) {
           h4("Raw data"),
           tabsetPanel(
             type = "tabs",
-            tabPanel("Individual", DT::dataTableOutput("individual_sub")),
-            tabPanel("Consensus", DT::dataTableOutput("summary_sub"))
+            tabPanel("Consensus", DT::dataTableOutput("summary_sub")),
+            tabPanel("Individual", DT::dataTableOutput("individual_sub"))
           )
         )
       ),
       
       #### Input data ####
       tabPanel(
-        title = "Input data",
+        title = "Enrichment analysis",
         icon = icon("file-upload"),
         sidebarPanel(
           includeMarkdown("inst/input_data_sidebar.md"),
@@ -87,7 +87,7 @@ ui = function(request) {
       ),
       #### Meta analysis results ####
       tabPanel(
-        title = "Meta analysis results",
+        title = "Consensus signature",
         icon = icon("table"),
         sidebarPanel(
           includeMarkdown("inst/meta_analysis_results_sidebar.md")
@@ -95,8 +95,8 @@ ui = function(request) {
         mainPanel(
           tabsetPanel(
             type = "tabs",
-            tabPanel("Individual", DT::dataTableOutput("individual")),
-            tabPanel("Consensus", DT::dataTableOutput("summary"))
+            tabPanel("Consensus", DT::dataTableOutput("summary")),
+            tabPanel("Individual", DT::dataTableOutput("individual"))
           )
         )
       ),

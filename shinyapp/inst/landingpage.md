@@ -3,7 +3,7 @@
 
 ### Abstract
 
-RefHF is a user friendly portal to explore, analyze and download the transcriptional human end-stage heart failure consensus signature (HF-CS).
+RefHF is a user friendly portal to explore, analyze and download the transcriptional consensus signature of human end-stage heart failure consensus signature (HF-CS).
 
 The HF-CS is based on a meta-analysis of 16 independent studies. 
 
