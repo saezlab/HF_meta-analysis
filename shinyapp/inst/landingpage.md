@@ -3,7 +3,7 @@
 
 ### Abstract
 
-RefHF is a user friendly portal to explore, analyze and download the transcriptional consensus signature of human end-stage heart failure consensus signature (HF-CS).
+RefHF is a user friendly portal to explore, analyze and download the transcriptional consensus signature of human end-stage heart failure (HF-CS).
 
 The HF-CS is based on a meta-analysis of 16 independent studies. 
 
@@ -20,4 +20,7 @@ This resource can be leveraged in many ways, please refer to the original public
 <img src="../www/graphical_abstract_wide.png" width="100%", align="middle">
 
 ### Citation
-> TODO
+> Ramirez-Flores RO, Lanzer JD, Holland CH, Schultz J-H, Levinson RT, 
+Saez-Rodriguez J. "A Meta-analysis of the Transcriptional Landscape of Human 
+End-Stage Heart Failure Reveals Common Disease Processes Independent of Patient 
+Cohorts." _In preparation_. 2020.
