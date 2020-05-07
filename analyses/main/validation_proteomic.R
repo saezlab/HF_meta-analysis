@@ -13,7 +13,6 @@ library(tidyr)
 library(tibble)
 library(dplyr)
 library(fgsea)
-library(ggrepel)
 
 ## prepare conensus signature 
 METAheart = readRDS(file = "data/METAheart.rds") #main object

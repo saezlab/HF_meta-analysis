@@ -10,30 +10,24 @@ library(tidyverse)
 library(limma)
 library(fgsea)
 library(viper)
-#library(progeny)
 library(WriteXLS)
-library("Hmisc")
+library(Hmisc)
 library(ggrepel)
 
 #files
 fetal_experiments = readRDS("data/fetal_METAheart.rds")
 METAheart= readRDS("data/METAheart.rds")
-meta_rank = as_tibble(read.csv("data/METArank_March2020.csv",
-                               header = T,
-                               sep= ",",
-                               stringsAsFactors = F) )
+meta_rank = readRDS("data/shiny/fisher_rank.rds")
+
 #source code
 source("src/data_utils.R")
 source("src/misc_utils.R")
 
-
 ### two fetal studies can be analyzed
 ### select which study should be analyzed
 
-study= "GSE52601"
-#study= "PRJNA522417"
-
-targets = fetal_experiments[[study]]$TARGETS
+for(study in c("GSE52601", "PRJNA522417")){
+  targets = fetal_experiments[[study]]$TARGETS
 count = fetal_experiments[[study]]$GEX
 
 ### perform differntial expression analysis with limma
@@ -50,11 +44,6 @@ fetalDEA = as.data.frame(topTable(fit2,adjust.method = "BH",coef = "fetalyes",
   rownames_to_column("gene") %>%
   arrange(desc(abs(t))) %>% as_tibble()
 
-# volcanoplot of DEA
-ggplot(data= fetalDEA, mapping = aes(x=logFC, y= -log10(adj.P.Val)))+
-  geom_point()+
-  ggtitle("fetal vs adult non failing")
-
 #save for further plotting in Script validation_plotting.R
 saveRDS(fetalDEA, file =paste0("data/figure_objects/fetalDEgenes_",study,".rds"))
 
@@ -62,9 +51,7 @@ saveRDS(fetalDEA, file =paste0("data/figure_objects/fetalDEgenes_",study,".rds")
 ### Enrichment Analysis with fgsea
 ## geneset and ranking preparation
 # calculate -log10 pvalue
-meta_rank = meta_rank %>%
-  mutate(log10pval = -log10(fisher_pvalue)) %>%
-  arrange(desc(log10pval))
+meta_rank = -log10(meta_rank)
 
 # filter DE genes from fetal samples for significance
 fetalDEA_sig= fetalDEA %>%
@@ -77,9 +64,9 @@ fetalDEA_dn = fetalDEA_sig %>% filter(logFC < 0)
 
 ## 1. Enrichment
 ## Enrich all DE fetal genes in the -log10(fisher_p) sorted meta rank (undirected)
-geneset = list(fetalDEA_sig$gene)
-gsea_rank_undir= meta_rank$log10pval
-names(gsea_rank_undir) = meta_rank$gene
+geneset = list("fetal" = fetalDEA_sig$gene)
+gsea_rank_undir= meta_rank
+
 fgseaRes_undir = fgsea(pathways=  geneset,
                        stats = gsea_rank_undir,
                        nperm= 1000,
@@ -97,10 +84,10 @@ saveRDS(geneset,file =  paste0("data/figure_objects/fealgeneset",
 # create directed metaranking
 # lfc_matrix of top differentially expressed genes from the meta ranking in all studies
 lfc_matrix = (get_all_limma(meta_list = METAheart,
-                            limma_column = "logFC"))[meta_rank$gene,]
+                            limma_column = "logFC"))[names(meta_rank),]
 
 # create a gene level statistic that penalizes for inconsistency in direction
-gsea_rank = sort(rowMeans(sign(lfc_matrix),na.rm = T) * -log2(meta_rank$fisher_pvalue),
+gsea_rank = sort(rowMeans(sign(lfc_matrix),na.rm = T) * meta_rank,
                  decreasing = T) #Ranking penalizing inconsistency in direction
 
 # up regulated and down regulated fetal genes are two gene sets
@@ -202,4 +189,5 @@ targets = TF_red %>%
   rownames_to_column("RegulonName") %>% 
   filter(sign(NES.x) == sign(NES.y))%>%
   mutate(corr = cor(NES.x,NES.y))
+}
 
