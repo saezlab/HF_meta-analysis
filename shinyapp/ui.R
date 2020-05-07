@@ -4,11 +4,12 @@ source("sub/helper.R")
 ui = function(request) {
   fluidPage(
     useShinyjs(),
+    tags$head(includeScript("google-analytics.js")),
     navbarPage(
       id = "menu", 
       title = div(img(src="logo_saezlab.png", width="25", height="25"),
-                  "HF-App"),
-      windowTitle = "metaHF-App",
+                  "RefHF-App"),
+      windowTitle = "RefHF",
       collapsible=T,
       
       #### Welcome ####
@@ -128,12 +129,13 @@ ui = function(request) {
         ),
         mainPanel(
           DT::dataTableOutput("overview"),
+          br(),
           includeMarkdown("inst/overview.md")
         )
       ),
       
       #### Footer ####
-      footer = column(12, align="center", "metaHF-App 2020")
+      footer = column(12, align="center", "RefHF-App 2020")
     ) # close navbarPage
   ) # close fluidPage
 }
