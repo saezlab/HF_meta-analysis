@@ -14,12 +14,15 @@ library(patchwork)
 library(ggrepel)
 
 fgseaRes= readRDS("data/figure_objects/Validation_GSEA_results.rds")
-meta_rank = as_tibble(read.csv("data/METArank_March2020.csv",
-                               header = T,
-                               sep= ",",
-                               stringsAsFactors = F) ) %>%
+
+meta_rank = read.csv(file =  "data/shiny/meta_analysis_summary.txt",sep = "\t",
+                     header = T, stringsAsFactors = F)
+
+meta_rank = meta_rank %>%
   mutate(log10pval = -log10(fisher_pvalue)) %>%
-  arrange(desc(log10pval))
+  arrange(desc(log10pval)) %>%
+  mutate(rank = seq(1, dim(.)[1]))
+
 
 
 
@@ -106,10 +109,12 @@ plot.proteomics.earlyHF = ggplot(data= prot_dev, aes(x= loghr,y = trnscrpt_evid_
                    size =3)
 
 # add disease score classifier for fetal samples (output from ds_fetal_external_studies.R)
-ds_fetal = readRDS("data/ds_fetal_plot.rds")
+#ds_fetal = readRDS("data/figure_objects/ds_fetal_plot.rds")
+ds_fetal = readRDS("data/figure_objects/ds_fetal_experiment.rds") %>%
+  enframe() %>% unnest()
 
 plot.ds.fet = ggplot(ds_fetal,
-                     aes(x=label, y=Risk_Score, color=HeartFailure)) +
+                     aes(x=name, y=Risk_Score, color=HeartFailure)) +
   geom_hline(yintercept = 0,
              color = "grey",
              linetype = "dashed")+
@@ -128,8 +133,6 @@ plot.ds.fet = ggplot(ds_fetal,
         axis.text = element_text(size= 11.5),
         axis.title.y= element_text(size =13))
 
-print(plot.ds.fet)
-
 
 ## combine plots
 
@@ -140,7 +143,6 @@ suppfigure= plot_grid(plot.ds.fet,
                       ncol = 2,
                       rel_widths = c(1,1.2),
                       labels= "AUTO")
-suppfigure
 
 pdf("data/figures/sup/SupplementalFigure13.pdf",
     width = 9,
