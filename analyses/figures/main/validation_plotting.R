@@ -14,17 +14,15 @@
   library(patchwork) 
   library(ggrepel)
   
-  
   #################### 1. Perform Enrichment of all validation gene sets in HF consensus signature
   
   proteinsets= readRDS("data/figure_objects/protein_genesets.rds")
   fetal_genesets_GSE = readRDS("data/figure_objects/fealgenesetGSE52601.rds")
   fetal_gensets_P = readRDS("data/figure_objects/fealgenesetPRJNA522417.rds")
+  meta_rank = read.csv(file =  "data/shiny/meta_analysis_summary.txt",sep = "\t",
+                         header = T, stringsAsFactors = F)
   
-  meta_rank = as_tibble(read.csv("data/METArank_March2020.csv",
-                                 header = T,
-                                 sep= ",",
-                                 stringsAsFactors = F) ) %>%
+  meta_rank = meta_rank %>%
     mutate(log10pval = -log10(fisher_pvalue)) %>%
     arrange(desc(log10pval)) %>%
     mutate(rank = seq(1, dim(.)[1]))
@@ -91,11 +89,10 @@
                      segment.color = 'grey50',
                      size =3)
   
-  print(plot.fetal.gene)
-  
   ##TF
   plot.fetal.TFs.data= readRDS(file="data/figure_objects/fetalTFs_PRJNA522417.rds")
   
+  # This is the one for the figure
   plot.fetal.TFs = ggplot(data= plot.fetal.TFs.data, aes(x= NES.fetal,y = NES.meta))+
     geom_point(aes(color =colored ))+
     scale_color_manual(values =c("#d0d0e1","#000000"))+
@@ -114,8 +111,7 @@
                      segment.color = 'grey50',
                      size = 3)
   
-  plot.fetal.TFs
-  
+
   #################### 3. Proteome plot
   
   # Manifest Proteome
@@ -145,7 +141,6 @@
                      size =3)
   
   
-  print(plot.proteomics)
   # What is plotted? 
   # grey + black dots: significant hits in independent study
   # black dots: part of leading edge (from GSEA), same direction in consensus signature and 
@@ -169,7 +164,7 @@
   pdf("data/figures/main/Figure6.pdf",
       width = 10,
       height = 10)
-  Figure6
+  plot(Figure6)
   dev.off()
   
 
@@ -249,4 +244,4 @@ WriteXLS(x= c("proteom_manifest_HF",
                         "fetal_TFs_Spurrell19",
                         "fetal_genes_GSE52601",
                         "fetal_TFs_GSE52601"),
-         ExcelFileName = "data/paper_sup/SupplementalTalble5.xlsx")  
+         ExcelFileName = "data/paper_sup/SupplementalTable5.xlsx")  
