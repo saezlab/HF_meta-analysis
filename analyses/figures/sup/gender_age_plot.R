@@ -176,3 +176,22 @@ pdf("data/figures/sup/SupplementalFigure1.pdf",
 plot.GenderAge
 
 dev.off()
+
+#######################
+library(WriteXLS)
+  
+
+supp = sample %>% 
+  select(study)%>%
+  rename(Study= study) %>% 
+  left_join(ages %>% 
+              rownames_to_column("Study") %>% 
+              inner_join(gender %>%
+                           rownames_to_column("Study"), by = "Study"
+                         )
+            )
+
+
+WriteXLS(x= supp, 
+         ExcelFileName = "data/paper_sup/gender_age.xlsx")
+  
