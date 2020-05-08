@@ -17,7 +17,10 @@ library(ggrepel)
 #files
 fetal_experiments = readRDS("data/fetal_METAheart.rds")
 METAheart= readRDS("data/METAheart.rds")
+
 meta_rank = readRDS("data/shiny/fisher_rank.rds")
+# calculate -log10 pvalue
+meta_rank = -log10(meta_rank)
 
 #source code
 source("src/data_utils.R")
@@ -27,7 +30,7 @@ source("src/misc_utils.R")
 ### select which study should be analyzed
 
 for(study in c("GSE52601", "PRJNA522417")){
-  targets = fetal_experiments[[study]]$TARGETS
+targets = fetal_experiments[[study]]$TARGETS
 count = fetal_experiments[[study]]$GEX
 
 ### perform differntial expression analysis with limma
@@ -46,12 +49,6 @@ fetalDEA = as.data.frame(topTable(fit2,adjust.method = "BH",coef = "fetalyes",
 
 #save for further plotting in Script validation_plotting.R
 saveRDS(fetalDEA, file =paste0("data/figure_objects/fetalDEgenes_",study,".rds"))
-
-
-### Enrichment Analysis with fgsea
-## geneset and ranking preparation
-# calculate -log10 pvalue
-meta_rank = -log10(meta_rank)
 
 # filter DE genes from fetal samples for significance
 fetalDEA_sig= fetalDEA %>%
@@ -189,5 +186,6 @@ targets = TF_red %>%
   rownames_to_column("RegulonName") %>% 
   filter(sign(NES.x) == sign(NES.y))%>%
   mutate(corr = cor(NES.x,NES.y))
+
 }
 
