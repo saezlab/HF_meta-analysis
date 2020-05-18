@@ -1,5 +1,7 @@
 # Shiny App
 
+[![Build Status](https://travis-ci.com/saezlab/HF_meta-analysis.svg?token=PagY1pyvMyyL3AJHRy5V&branch=master)](https://travis-ci.com/saezlab/HF_meta-analysis)
+
 ```r
 sessioninfo::session_info()
 ```
