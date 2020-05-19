@@ -18,7 +18,7 @@ We demonstrated the feasibility of combining transcriptional studies from differ
 ### Availabilty of data
 The datasets supporting the conclusions of this publication are available at Zenodo:
 10.5281/zenodo.3797044
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3797044.svg)](here_put_link)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3797044.svg)](https://zenodo.org/record/3797044#.XsQPMy2B2u5)
 
 From Zenodo you can download these (zipped) folders: 
 
