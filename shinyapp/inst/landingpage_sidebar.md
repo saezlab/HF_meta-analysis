@@ -1,8 +1,8 @@
 <link href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 
-#### Overview of RefHF
+#### Overview of ReHeaT
 
-Within RefHF we provide following services: 
+Within ReHeaT we provide following services: 
 - **Gene query.** Assess consistency of a gene of interest by exploring its position in the HF-CS.
 - **Gene set enrichment analysis**. Assess wether a gene set of interest is enriched in the HF-CS.
 - Explore and Download the **HF-CS**. 

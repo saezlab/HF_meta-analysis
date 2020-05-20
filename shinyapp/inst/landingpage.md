@@ -1,4 +1,4 @@
-# Welcome to **ReHeaT**
+# Welcome to **ReHeaT**,
 ## the **Re**ference for the **Hea**rt failure **T**ranscriptome
 
 
