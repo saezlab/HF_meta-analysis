@@ -11,9 +11,7 @@ Within ReHeaT we provide following services:
 
 ---
 
-<i class="far fa-comment"></i> designed to interactively explore the results of <a href="..." target="_blank">*A Meta-analysis of the Transcriptional Landscape of Human 
-End-Stage Heart Failure Reveals Common Disease Processes Independent of Patient 
-Cohorts*</a>.
+<i class="far fa-comment"></i> designed to interactively explore the results of <a href="..." target="_blank">*The Reference of the Transcriptional Landscape of Human End-Stage Heart Failure*</a>.
 
 <i class="far fa-list-alt"></i> consensus signature created and corresponding analyses performed by Ricardo Ramirez (<a href="mailto:ricardo.ramirez@bioquant.uni-heidelberg.de" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>) and Jan Lanzer (<a href="mailto:jan.lanzer@bioquant.uni-heidelberg.de" target="_blank"><i class="glyphicon glyphicon-envelope"></i></a>) at the <a href="http://saezlab.org" target="_blank">Saezlab</a>, Institute for Computational Biomedicine, University of Heidelberg.
 
