@@ -33,7 +33,7 @@ Raw data of each experiment used is not provided as it can be downloaded from th
 ***
 
 ### How to cite
-> Ramirez Flores RO, Lanzer JD, Holland CH, Schultz J-H, Levinson RT, Saez-Rodriguez J. “A Meta-analysis of the Transcriptional Landscape of Human End-Stage Heart Failure Reveals Common Disease Processes Independent of Patient Cohorts.” *In preparation*. 2020.
+> Ramirez Flores RO, Lanzer JD, Holland CH, Leuschner F, Most P, Schultz J-H, Levinson RT, Saez-Rodriguez J. “A Meta-analysis of the Transcriptional Landscape of Human End-Stage Heart Failure Reveals Common Disease Processes Independent of Patient Cohorts.” *In preparation*. 2020.
 
 ***
 
