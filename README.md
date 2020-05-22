@@ -1,9 +1,9 @@
-## The Reference of the Transcriptional Landscape of Human End-Stage Heart Failure
+## A Consensus Transcriptional Landscape of Human End-Stage Heart Failure
 
 ### Abstract
 
 **Aims:** 
-Transcriptomic studies have contributed to fundamental knowledge of myocardial remodeling in human heart failure (HF). However, the agreement on the crucial genes in HF is limited and systematic efforts to integrate evidences of multiple patient cohorts are lacking.  Here we aimed to provide an unbiased consensus transcriptional signature of human end-stage HF by comprehensive comparison and analysis of publicly available datasets. 
+Transcriptomic studies have contributed to fundamental knowledge of myocardial remodeling in human heart failure (HF). However, the agreement on the crucial genes in HF is limited and systematic efforts to integrate evidences from multiple patient cohorts are lacking.  Here we aimed to provide an unbiased consensus transcriptional signature of human end-stage HF by comprehensive comparison and analysis of publicly available datasets. 
 
 **Methods and Results:** 
 We curated and uniformly processed 16 public transcriptomic studies of left ventricular samples from 263 healthy and 653 failing human hearts. Transfer learning approaches revealed conserved disease patterns across all studies independent of technical differences. We meta-analyzed the dysregulation of 14041 genes to extract a consensus signature of HF. Estimation of the activities of 343 transcription factors, 14 signalling pathways, and 182 micro RNAs, as well as the enrichment of 5998 biological processes confirmed the established aspects of the functional landscape of the disease and revealed novel ones. We provide all results in a free public resource [RefHF](https://saezlab.shinyapps.io/refhf) to facilitate further use and interpretation of the results. We exemplify usage by deciphering fetal gene reprogramming and tracing myocardial origin of the plasma proteome biomarkers in HF patients.
