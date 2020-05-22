@@ -211,18 +211,6 @@ colnames(down_ES) = c("Reference","DEG","ES")
 saveRDS(down_ES, 
         file = "data/figure_objects/down_ES.rds")
 
-## Write supplementary tables for paper
-
-WriteXLS(x = c("jaccard_res",
-               "pairwise_200",
-               "up_ES",
-               "down_ES"), 
-         ExcelFileName = "data/paper_sup/SupplementalTable2.xlsx",
-         SheetNames = c("Jaccard_Index",
-                        "AUC_disease_score",
-                        "ES_upregulation",
-                        "ES_downregulation")
-)
 
 ## Correlations of reproducibility measures: 
 ## Here we want to know if high mean enrichment scores
