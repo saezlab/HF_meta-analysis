@@ -12,7 +12,7 @@ output$gene_regulation_boxplot = renderPlotly({
       geom_boxplot() +
       geom_point(aes(color = study), size = 4, alpha = 0.6) +
       theme_classic() +
-      labs(x = "HF marker genes", y = "t-value", color = "Study") +
+      labs(x = "Queried genes", y = "t-value", color = "Study") +
       theme(panel.grid.major = element_blank(),
             panel.grid.minor = element_blank(),
             axis.text = element_text(size= 11)) +
