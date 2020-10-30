@@ -7,12 +7,14 @@
   # 1. Enrichment analysis of independent study results in HF consensus signature
   # 2. Fetal study Spurell19, A) DE genes, B) significant TFs
   # 3. Manifest HF plasma proteome, plot candidates
-  
+  # 4. Save full results as xls
+
   library(tidyverse)
   library(fgsea)
   library(cowplot)
   library(patchwork) 
   library(ggrepel)
+  library(WriteXLS)
   
   #################### 1. Perform Enrichment of all validation gene sets in HF consensus signature
   
@@ -44,7 +46,7 @@
               as_tibble()
   
   saveRDS(fgseaRes, file = "data/figure_objects/Validation_GSEA_results.rds")
-              
+  fgseaRes= readRDS(file = "data/figure_objects/Validation_GSEA_results.rds")            
   
   ## Plot enrichment pvals:
   plot.enrichment =ggplot(data= fgseaRes, aes(x= pathway,y= -log10(pval), fill= sign(NES)))+
@@ -115,7 +117,7 @@
   #################### 3. Proteome plot
   
   # Manifest Proteome
-  prot_manifest =readRDS("data/figure_objects/proteomics_manifest.rds") %>% 
+    prot_manifest =readRDS("data/figure_objects/proteomics_manifest.rds") %>% 
       inner_join(meta_rank %>% rename(hgnc_symbol = gene), by = "hgnc_symbol") %>%
     mutate(leading = hgnc_symbol %in% fgseaRes$leadingEdge[[1]],
            quadrant= sign(logor) == sign(trnscrpt_evid_t),
@@ -146,8 +148,9 @@
   # black dots: part of leading edge (from GSEA), same direction in consensus signature and 
   # and independent study
   # labels: hits that are rankend within top 500 genes in consensus signature
+  
 
-  #### combine plots (fig6)
+ #### combine plots (fig6)
   
   plot4 = plot_grid(plot.proteomics, 
                     plot.fetal.TFs, 
@@ -158,6 +161,7 @@
   plot.enrichment2= plot_grid(blank_p, blank_p, plot.enrichment, ncol = 1, labels = c("A", "", "B"))
   plot1 = plot_grid(plot.enrichment2 ,plot.fetal.gene, ncol = 1, labels= c("","D"))
   
+
   
   Figure6 = plot_grid( plot1, plot4, rel_widths = c(1.2,1))
   
@@ -169,9 +173,8 @@
   
 
   
-  #### save full results from validation analysis as xslx for paper supplement
-library(WriteXLS)
-  
+  #################### 4. save full results from validation analysis as xslx for paper supplement
+
  proteom_manifest_HF= prot_manifest %>% 
     rename(Gene.ID = hgnc_symbol,
            logOR_study= logor,
