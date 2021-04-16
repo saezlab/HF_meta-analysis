@@ -32,7 +32,7 @@
  ***
 
  ### How to cite
- > Ramirez-Flores RO, Lanzer JD, Holland CH, Leuschner F, Most P, Schultz J-H, Levinson RT, Saez-Rodriguez J. “A Consensus Transcriptional Landscape of Human End-Stage Heart Failure.” medRxiv. 2020. DOI: [10.1101/2020.05.23.20110858](https://www.medrxiv.org/content/10.1101/2020.05.23.20110858v1)
+ > Ramirez-Flores RO, Lanzer JD, Holland CH, Leuschner F, Most P, Schultz J-H, Levinson RT, Saez-Rodriguez J. “Consensus Transcriptional Landscape of Human End-Stage Heart Failure.” Journal of the American Heart Association. 2021. DOI: [10.1161/JAHA.120.019667](https://doi.org/10.1161/JAHA.120.019667)
 
  ***
 
